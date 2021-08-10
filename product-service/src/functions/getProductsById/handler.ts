@@ -5,20 +5,28 @@ import {middyfy} from '@libs/lambda';
 
 import cats from "../../cats";
 
-const getCatById = async (e) => {
-    const catId = e.pathParameters.id;
-    const filteredCats = cats.filter(cat => cat.id == catId)
+const getCatById = async (e): Promise<Record<string, unknown>> => {
+    try {
+        const catId = e.pathParameters.id;
+        const filteredCats = cats.filter(cat => cat.id == catId)
 
-    if (filteredCats.length > 0) {
+        if (filteredCats.length > 0) {
+            return formatJSONResponse(
+                {
+                    cats: filteredCats
+                });
+        } else if (filteredCats.length === 0) {
+            return formatJSONResponse(
+                {
+                    message: 'Cat not found',
+                    cats: []
+                }
+            )
+        }
+    } catch (e) {
         return formatJSONResponse(
             {
-                cats: filteredCats
-            });
-    } else if (filteredCats.length === 0) {
-        return formatJSONResponse(
-            {
-                message: 'Cat not found',
-                cats: []
+                message: e.message,
             }
         )
     }
