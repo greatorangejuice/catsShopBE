@@ -19,23 +19,33 @@ const dbOptions = {
     connectionTimeoutMillis: 5000,
 }
 
-const hello: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async () => {
+const createProduct: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (e) => {
     const client = new Client(dbOptions);
     await client.connect();
+    const {name, price, birthday, breedid, imglink, count} = e.body;
 
     try {
-        const {rows} = await client.query(
-            `select cats.id, cats.name, cats.price, cats.birthday, cats.imgLink as imgLink, b.name as breed, b.description, k.count from cats inner join breeds b on b.id = cats.breedid inner join kittens k on cats.id = k.cat_id;`
+        const kittens = await client.query(
+            `insert into cats(name, price, birthday, imglink, breedid) values ('${name}', ${price}, '${birthday}', '${imglink}', ${breedid}) returning id`
         )
+        const kittensId = kittens.rows.find(item => item).id;
+
+        await client.query(
+            `insert into kittens (cat_id, count) VALUES ('${kittensId}', ${count})`
+        )
+
         return formatJSONResponse({
-            cats: rows,
+            message: `New kittens by ${name} added.`
         });
     } catch (e) {
-
+        return formatJSONResponse({
+            message: `${e.message}`,
+            code: 'BAD REQUEST'
+        });
     } finally {
         client.end()
     }
 
 }
 
-export const main = middyfy(hello);
+export const main = middyfy(createProduct);
