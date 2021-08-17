@@ -20,14 +20,16 @@ const getCatById = async (e): Promise<Record<string, unknown>> => {
                 {
                     message: 'Cat not found',
                     cats: []
-                }
+                },
+                404
             )
         }
     } catch (e) {
         return formatJSONResponse(
             {
                 message: e.message,
-            }
+            },
+            400
         )
     }
 }
