@@ -21,14 +21,7 @@ const serverlessConfiguration: AWS = {
             minimumCompressionSize: 1024,
             shouldStartNameWithService: true,
         },
-        environment: {
-            AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
-            PG_HOST: 'postgres-db-0.cccgaep08fok.eu-west-1.rds.amazonaws.com',
-            PG_PORT: '5432',
-            PG_DATABASE: 'catsDB',
-            PG_USERNAME: 'postgres',
-            PG_PASSWORD: 'jimbowimbo9W',
-        },
+
         lambdaHashingVersion: '20201221',
     },
     // import the function via paths
