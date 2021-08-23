@@ -83,6 +83,12 @@
         "LogGroupName": "/aws/lambda/import-service-v3-dev-importFileParser"
       }
     },
+    "CatalogBatchProcessLogGroup": {
+      "Type": "AWS::Logs::LogGroup",
+      "Properties": {
+        "LogGroupName": "/aws/lambda/import-service-v3-dev-catalogBatchProcess"
+      }
+    },
     "IamRoleLambdaExecution": {
       "Type": "AWS::IAM::Role",
       "Properties": {
@@ -153,6 +159,34 @@
                     "s3:*"
                   ],
                   "Resource": "arn:aws:s3:::rs-uploaded"
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "sqs:*"
+                  ],
+                  "Resource": {
+                    "Fn::GetAtt": [
+                      "SQSQueue",
+                      "Arn"
+                    ]
+                  }
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "sqs:ReceiveMessage",
+                    "sqs:DeleteMessage",
+                    "sqs:GetQueueAttributes"
+                  ],
+                  "Resource": [
+                    {
+                      "Fn::GetAtt": [
+                        "SQSQueue",
+                        "Arn"
+                      ]
+                    }
+                  ]
                 }
               ]
             }
@@ -181,7 +215,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/import-service-v3/dev/1629473953019-2021-08-20T15:39:13.019Z/import-service-v3.zip"
+          "S3Key": "serverless/import-service-v3/dev/1629731481442-2021-08-23T15:11:21.442Z/import-service-v3.zip"
         },
         "Handler": "src/functions/importProductsFile/handler.main",
         "Runtime": "nodejs14.x",
@@ -190,7 +224,15 @@
         "Timeout": 6,
         "Environment": {
           "Variables": {
-            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1"
+            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+            "SQS_URL": {
+              "Ref": "SQSQueue"
+            },
+            "PG_HOST": "postgres-db-0.cccgaep08fok.eu-west-1.rds.amazonaws.com",
+            "PG_PORT": "5432",
+            "PG_DATABASE": "catsDB",
+            "PG_USERNAME": "postgres",
+            "PG_PASSWORD": "jimbowimbo9W"
           }
         },
         "Role": {
@@ -211,7 +253,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/import-service-v3/dev/1629473953019-2021-08-20T15:39:13.019Z/import-service-v3.zip"
+          "S3Key": "serverless/import-service-v3/dev/1629731481442-2021-08-23T15:11:21.442Z/import-service-v3.zip"
         },
         "Handler": "src/functions/importFileParser/handler.main",
         "Runtime": "nodejs14.x",
@@ -220,7 +262,15 @@
         "Timeout": 6,
         "Environment": {
           "Variables": {
-            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1"
+            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+            "SQS_URL": {
+              "Ref": "SQSQueue"
+            },
+            "PG_HOST": "postgres-db-0.cccgaep08fok.eu-west-1.rds.amazonaws.com",
+            "PG_PORT": "5432",
+            "PG_DATABASE": "catsDB",
+            "PG_USERNAME": "postgres",
+            "PG_PASSWORD": "jimbowimbo9W"
           }
         },
         "Role": {
@@ -234,24 +284,72 @@
         "ImportFileParserLogGroup"
       ]
     },
-    "ImportProductsFileLambdaVersionrJ6EAF5NYPxaIC2M34UQxCWIcM0lXrY6GaveO4HQc": {
+    "CatalogBatchProcessLambdaFunction": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Ref": "ServerlessDeploymentBucket"
+          },
+          "S3Key": "serverless/import-service-v3/dev/1629731481442-2021-08-23T15:11:21.442Z/import-service-v3.zip"
+        },
+        "Handler": "src/functions/catalogBatchProcess/handler.main",
+        "Runtime": "nodejs14.x",
+        "FunctionName": "import-service-v3-dev-catalogBatchProcess",
+        "MemorySize": 1024,
+        "Timeout": 6,
+        "Environment": {
+          "Variables": {
+            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+            "SQS_URL": {
+              "Ref": "SQSQueue"
+            },
+            "PG_HOST": "postgres-db-0.cccgaep08fok.eu-west-1.rds.amazonaws.com",
+            "PG_PORT": "5432",
+            "PG_DATABASE": "catsDB",
+            "PG_USERNAME": "postgres",
+            "PG_PASSWORD": "jimbowimbo9W"
+          }
+        },
+        "Role": {
+          "Fn::GetAtt": [
+            "IamRoleLambdaExecution",
+            "Arn"
+          ]
+        }
+      },
+      "DependsOn": [
+        "CatalogBatchProcessLogGroup"
+      ]
+    },
+    "ImportProductsFileLambdaVersiongUDs9tVls0KKiEMUPdbFmYd0olXw7cIPpEoo4e4H8": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "ImportProductsFileLambdaFunction"
         },
-        "CodeSha256": "2bAk/Pj2n7kGVn9EDP312qix82BOf5T1CQcmGikBfKw="
+        "CodeSha256": "ePl0fgvoU8Nd6OG9bBQmW52HKUfEVoFtiU9tklzL7WQ="
       }
     },
-    "ImportFileParserLambdaVersionHDxzpVgvNPV11GH93fnHPL2AEPJMk9GBcohUDgI": {
+    "ImportFileParserLambdaVersion5Thh9MpCykcDLgdNjj7qBEEN4vvoli745Da9WnY": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "ImportFileParserLambdaFunction"
         },
-        "CodeSha256": "2bAk/Pj2n7kGVn9EDP312qix82BOf5T1CQcmGikBfKw="
+        "CodeSha256": "ePl0fgvoU8Nd6OG9bBQmW52HKUfEVoFtiU9tklzL7WQ="
+      }
+    },
+    "CatalogBatchProcessLambdaVersionGxWVlVf93MvY21TzVAXWMsjM4S8Or6CSTpgC1yBJaA": {
+      "Type": "AWS::Lambda::Version",
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "CatalogBatchProcessLambdaFunction"
+        },
+        "CodeSha256": "ePl0fgvoU8Nd6OG9bBQmW52HKUfEVoFtiU9tklzL7WQ="
       }
     },
     "ImportFileParserCustomS31": {
@@ -378,7 +476,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/import-service-v3/dev/1629473953019-2021-08-20T15:39:13.019Z/custom-resources.zip"
+          "S3Key": "serverless/import-service-v3/dev/1629731481442-2021-08-23T15:11:21.442Z/custom-resources.zip"
         },
         "FunctionName": "import-service-v3-dev-custom-resource-existing-s3",
         "Handler": "s3/handler.handler",
@@ -470,7 +568,7 @@
         "ImportProductsFileLambdaPermissionApiGateway"
       ]
     },
-    "ApiGatewayDeployment1629473942229": {
+    "ApiGatewayDeployment1629731469215": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -518,6 +616,34 @@
           ]
         }
       }
+    },
+    "CatalogBatchProcessEventSourceMappingSQSSQSQueue": {
+      "Type": "AWS::Lambda::EventSourceMapping",
+      "DependsOn": [
+        "IamRoleLambdaExecution"
+      ],
+      "Properties": {
+        "BatchSize": 5,
+        "EventSourceArn": {
+          "Fn::GetAtt": [
+            "SQSQueue",
+            "Arn"
+          ]
+        },
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "CatalogBatchProcessLambdaFunction",
+            "Arn"
+          ]
+        },
+        "Enabled": true
+      }
+    },
+    "SQSQueue": {
+      "Type": "AWS::SQS::Queue",
+      "Properties": {
+        "QueueName": "import-service-sqs-parse"
+      }
     }
   },
   "Outputs": {
@@ -532,7 +658,7 @@
     "ImportProductsFileLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "ImportProductsFileLambdaVersionrJ6EAF5NYPxaIC2M34UQxCWIcM0lXrY6GaveO4HQc"
+        "Ref": "ImportProductsFileLambdaVersiongUDs9tVls0KKiEMUPdbFmYd0olXw7cIPpEoo4e4H8"
       },
       "Export": {
         "Name": "sls-import-service-v3-dev-ImportProductsFileLambdaFunctionQualifiedArn"
@@ -541,10 +667,19 @@
     "ImportFileParserLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "ImportFileParserLambdaVersionHDxzpVgvNPV11GH93fnHPL2AEPJMk9GBcohUDgI"
+        "Ref": "ImportFileParserLambdaVersion5Thh9MpCykcDLgdNjj7qBEEN4vvoli745Da9WnY"
       },
       "Export": {
         "Name": "sls-import-service-v3-dev-ImportFileParserLambdaFunctionQualifiedArn"
+      }
+    },
+    "CatalogBatchProcessLambdaFunctionQualifiedArn": {
+      "Description": "Current Lambda function version",
+      "Value": {
+        "Ref": "CatalogBatchProcessLambdaVersionGxWVlVf93MvY21TzVAXWMsjM4S8Or6CSTpgC1yBJaA"
+      },
+      "Export": {
+        "Name": "sls-import-service-v3-dev-CatalogBatchProcessLambdaFunctionQualifiedArn"
       }
     },
     "ServiceEndpoint": {

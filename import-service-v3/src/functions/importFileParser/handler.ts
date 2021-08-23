@@ -8,7 +8,8 @@ const BUCKET = 'rs-uploaded'
 
 const importFileParser = async () => {
     const s3 = new AWS.S3({region: 'eu-west-1'});
-    let results = [];
+    const sqs = new AWS.SQS();
+    const results = [];
 
     const listObjectsParams = {
         Bucket: BUCKET,
@@ -17,13 +18,13 @@ const importFileParser = async () => {
 
     try {
         const s3response = await s3.listObjectsV2(listObjectsParams).promise()
-        results = s3response.Contents.filter(item => item.Size)
+        const content = s3response.Contents.filter(item => item.Size)
         const getObjectParams = {
             Bucket: BUCKET,
             Key: '',
         }
-        if (results[0] && results[0].Size) {
-            getObjectParams.Key = results[0]['Key'];
+        if (content[0] && content[0].Size) {
+            getObjectParams.Key = content[0]['Key'];
         }
         await s3.getObject(getObjectParams)
             .createReadStream()
@@ -31,6 +32,16 @@ const importFileParser = async () => {
             .on('data', (data) => results.push(data))
             .on('end', () => {
                 console.log('RESULTS IN STREAM', results);
+                results.forEach(product => {
+                    sqs.sendMessage({
+                        QueueUrl: process.env.SQS_URL,
+                        MessageBody: JSON.stringify(product)
+                    }, (err, data) => {
+                        console.log('Error: ',  err)
+                        console.log('Data: ',  data)
+                        // console.log('Send message for: ', product)
+                    })
+                })
             })
         await s3.copyObject({Bucket: BUCKET, CopySource: BUCKET + '/' + getObjectParams.Key, Key: getObjectParams.Key.replace('uploadedFiles', 'parsed')}).promise()
         await s3.deleteObject(({Bucket: BUCKET, Key: getObjectParams.Key})).promise()
