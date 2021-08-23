@@ -40,8 +40,7 @@ const createProduct: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (
     } catch (e) {
         return formatJSONResponse({
             message: `${e.message}`,
-            code: 'BAD REQUEST'
-        });
+        }, 400);
     } finally {
         client.end()
     }

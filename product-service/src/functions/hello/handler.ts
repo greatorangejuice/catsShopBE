@@ -25,13 +25,14 @@ const hello: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async () => {
 
     try {
         const {rows} = await client.query(
-            `select cats.id, cats.name, cats.price, cats.birthday, cats.imgLink as imgLink, b.name as breed, b.description, k.count from cats inner join breeds b on b.id = cats.breedid inner join kittens k on cats.id = k.cat_id;`
+            `select cats.id, cats.title, cats.price, cats.birthday, cats.imgLink as imgLink, b.title as breed, b.description, k.count from cats inner join breeds b on b.id = cats.breedid inner join kittens k on cats.id = k.cat_id;`
         )
         return formatJSONResponse({
             cats: rows,
-        });
+        }, 200);
     } catch (e) {
-
+        console.error(e.message)
+        return formatJSONResponse({message: e.message}, 400)
     } finally {
         client.end()
     }

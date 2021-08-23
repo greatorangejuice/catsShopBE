@@ -204,7 +204,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/cats-shop-service/dev/1628848453706-2021-08-13T09:54:13.706Z/cats-shop-service.zip"
+                "S3Key": "serverless/cats-shop-service/dev/1629709737360-2021-08-23T09:08:57.360Z/cats-shop-service.zip"
               },
               "Handler": "src/functions/hello/handler.main",
               "Runtime": "nodejs14.x",
@@ -239,7 +239,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/cats-shop-service/dev/1628848453706-2021-08-13T09:54:13.706Z/cats-shop-service.zip"
+                "S3Key": "serverless/cats-shop-service/dev/1629709737360-2021-08-23T09:08:57.360Z/cats-shop-service.zip"
               },
               "Handler": "src/functions/getProducts/handler.main",
               "Runtime": "nodejs14.x",
@@ -274,7 +274,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/cats-shop-service/dev/1628848453706-2021-08-13T09:54:13.706Z/cats-shop-service.zip"
+                "S3Key": "serverless/cats-shop-service/dev/1629709737360-2021-08-23T09:08:57.360Z/cats-shop-service.zip"
               },
               "Handler": "src/functions/getProductsById/handler.main",
               "Runtime": "nodejs14.x",
@@ -309,7 +309,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/cats-shop-service/dev/1628848453706-2021-08-13T09:54:13.706Z/cats-shop-service.zip"
+                "S3Key": "serverless/cats-shop-service/dev/1629709737360-2021-08-23T09:08:57.360Z/cats-shop-service.zip"
               },
               "Handler": "src/functions/createProduct/handler.main",
               "Runtime": "nodejs14.x",
@@ -337,44 +337,44 @@
               "CreateProductLogGroup"
             ]
           },
-          "HelloLambdaVersion0D5KogSavmU0no5HH3PHWXzZnzH1kXezWFeDNVvtR4": {
+          "HelloLambdaVersionjKUQarxmdXaASrbKDBJdjPnrcPNtTr2cAPuafIhrs": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "HelloLambdaFunction"
               },
-              "CodeSha256": "NSrFs510LE/2shoKEu26/1pfHjeV7fgs5dBG10kXpHo="
+              "CodeSha256": "TBNsmm9ql+8lCEQTOfqJWK5o5fVIYxhuOXteAl9K4FU="
             }
           },
-          "GetProductsLambdaVersionuJ1EkYbeMsrzBo8QKdiUpEmBGzRqcirbDXrcXWESMrg": {
+          "GetProductsLambdaVersion6fdebKqjbxAQ9ZElfNGzelgMlrkOEjppPkB9Lx4BBCw": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "GetProductsLambdaFunction"
               },
-              "CodeSha256": "NSrFs510LE/2shoKEu26/1pfHjeV7fgs5dBG10kXpHo="
+              "CodeSha256": "TBNsmm9ql+8lCEQTOfqJWK5o5fVIYxhuOXteAl9K4FU="
             }
           },
-          "GetCatByIdLambdaVersionpmpWUosKYuiGGpDJfZgNGFw97IVS1SklK7hvh4IHf4": {
+          "GetCatByIdLambdaVersion1bf4MBcUqd4dAPs8Q67MK0LPUuPsa36OmDLYqZ1FJc": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "GetCatByIdLambdaFunction"
               },
-              "CodeSha256": "NSrFs510LE/2shoKEu26/1pfHjeV7fgs5dBG10kXpHo="
+              "CodeSha256": "TBNsmm9ql+8lCEQTOfqJWK5o5fVIYxhuOXteAl9K4FU="
             }
           },
-          "CreateProductLambdaVersionfneXDfITpYgb7zY2d6ZVDxJtbwja0ic1SMtESNfLXw": {
+          "CreateProductLambdaVersion7iNbmpAiDDq3Sn0ugqHtUbi9cmGEL4GOutRc3NUYm8": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "CreateProductLambdaFunction"
               },
-              "CodeSha256": "NSrFs510LE/2shoKEu26/1pfHjeV7fgs5dBG10kXpHo="
+              "CodeSha256": "TBNsmm9ql+8lCEQTOfqJWK5o5fVIYxhuOXteAl9K4FU="
             }
           },
           "ApiGatewayRestApi": {
@@ -400,21 +400,6 @@
                 ]
               },
               "PathPart": "hello",
-              "RestApiId": {
-                "Ref": "ApiGatewayRestApi"
-              }
-            }
-          },
-          "ApiGatewayResourceProducts": {
-            "Type": "AWS::ApiGateway::Resource",
-            "Properties": {
-              "ParentId": {
-                "Fn::GetAtt": [
-                  "ApiGatewayRestApi",
-                  "RootResourceId"
-                ]
-              },
-              "PathPart": "products",
               "RestApiId": {
                 "Ref": "ApiGatewayRestApi"
               }
@@ -457,51 +442,6 @@
                 ]
               },
               "PathPart": "create-product",
-              "RestApiId": {
-                "Ref": "ApiGatewayRestApi"
-              }
-            }
-          },
-          "ApiGatewayMethodProductsOptions": {
-            "Type": "AWS::ApiGateway::Method",
-            "Properties": {
-              "AuthorizationType": "NONE",
-              "HttpMethod": "OPTIONS",
-              "MethodResponses": [
-                {
-                  "StatusCode": "200",
-                  "ResponseParameters": {
-                    "method.response.header.Access-Control-Allow-Origin": true,
-                    "method.response.header.Access-Control-Allow-Headers": true,
-                    "method.response.header.Access-Control-Allow-Methods": true
-                  },
-                  "ResponseModels": {}
-                }
-              ],
-              "RequestParameters": {},
-              "Integration": {
-                "Type": "MOCK",
-                "RequestTemplates": {
-                  "application/json": "{statusCode:200}"
-                },
-                "ContentHandling": "CONVERT_TO_TEXT",
-                "IntegrationResponses": [
-                  {
-                    "StatusCode": "200",
-                    "ResponseParameters": {
-                      "method.response.header.Access-Control-Allow-Origin": "'*'",
-                      "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
-                      "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET'"
-                    },
-                    "ResponseTemplates": {
-                      "application/json": "#set($origin = $input.params(\"Origin\"))\n#if($origin == \"\") #set($origin = $input.params(\"origin\")) #end\n#if($origin.matches(\".+\")) #set($context.responseOverride.header.Access-Control-Allow-Origin = $origin) #end"
-                    }
-                  }
-                ]
-              },
-              "ResourceId": {
-                "Ref": "ApiGatewayResourceProducts"
-              },
               "RestApiId": {
                 "Ref": "ApiGatewayRestApi"
               }
@@ -598,13 +538,13 @@
               "HelloLambdaPermissionApiGateway"
             ]
           },
-          "ApiGatewayMethodProductsGet": {
+          "ApiGatewayMethodProductGet": {
             "Type": "AWS::ApiGateway::Method",
             "Properties": {
               "HttpMethod": "GET",
               "RequestParameters": {},
               "ResourceId": {
-                "Ref": "ApiGatewayResourceProducts"
+                "Ref": "ApiGatewayResourceProduct"
               },
               "RestApiId": {
                 "Ref": "ApiGatewayRestApi"
@@ -775,7 +715,7 @@
               }
             }
           },
-          "ApiGatewayDeployment1628848446114": {
+          "ApiGatewayDeployment1629709729465": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -784,10 +724,9 @@
               "StageName": "dev"
             },
             "DependsOn": [
-              "ApiGatewayMethodProductsOptions",
               "ApiGatewayMethodProductIdVarOptions",
               "ApiGatewayMethodHelloGet",
-              "ApiGatewayMethodProductsGet",
+              "ApiGatewayMethodProductGet",
               "ApiGatewayMethodProductIdVarGet",
               "ApiGatewayMethodCreateDashproductPost"
             ]
@@ -953,7 +892,7 @@
           "HelloLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "HelloLambdaVersion0D5KogSavmU0no5HH3PHWXzZnzH1kXezWFeDNVvtR4"
+              "Ref": "HelloLambdaVersionjKUQarxmdXaASrbKDBJdjPnrcPNtTr2cAPuafIhrs"
             },
             "Export": {
               "Name": "sls-cats-shop-service-dev-HelloLambdaFunctionQualifiedArn"
@@ -962,7 +901,7 @@
           "GetProductsLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "GetProductsLambdaVersionuJ1EkYbeMsrzBo8QKdiUpEmBGzRqcirbDXrcXWESMrg"
+              "Ref": "GetProductsLambdaVersion6fdebKqjbxAQ9ZElfNGzelgMlrkOEjppPkB9Lx4BBCw"
             },
             "Export": {
               "Name": "sls-cats-shop-service-dev-GetProductsLambdaFunctionQualifiedArn"
@@ -971,7 +910,7 @@
           "GetCatByIdLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "GetCatByIdLambdaVersionpmpWUosKYuiGGpDJfZgNGFw97IVS1SklK7hvh4IHf4"
+              "Ref": "GetCatByIdLambdaVersion1bf4MBcUqd4dAPs8Q67MK0LPUuPsa36OmDLYqZ1FJc"
             },
             "Export": {
               "Name": "sls-cats-shop-service-dev-GetCatByIdLambdaFunctionQualifiedArn"
@@ -980,7 +919,7 @@
           "CreateProductLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "CreateProductLambdaVersionfneXDfITpYgb7zY2d6ZVDxJtbwja0ic1SMtESNfLXw"
+              "Ref": "CreateProductLambdaVersion7iNbmpAiDDq3Sn0ugqHtUbi9cmGEL4GOutRc3NUYm8"
             },
             "Export": {
               "Name": "sls-cats-shop-service-dev-CreateProductLambdaFunctionQualifiedArn"
@@ -1128,7 +1067,7 @@
         "timeout": 6,
         "runtime": "nodejs14.x",
         "vpc": {},
-        "versionLogicalId": "HelloLambdaVersion0D5KogSavmU0no5HH3PHWXzZnzH1kXezWFeDNVvtR4"
+        "versionLogicalId": "HelloLambdaVersionjKUQarxmdXaASrbKDBJdjPnrcPNtTr2cAPuafIhrs"
       },
       "getProducts": {
         "handler": "src/functions/getProducts/handler.main",
@@ -1136,26 +1075,7 @@
           {
             "http": {
               "method": "get",
-              "path": "products",
-              "cors": {
-                "origins": [
-                  "*"
-                ],
-                "origin": "*",
-                "methods": [
-                  "OPTIONS",
-                  "GET"
-                ],
-                "headers": [
-                  "Content-Type",
-                  "X-Amz-Date",
-                  "Authorization",
-                  "X-Api-Key",
-                  "X-Amz-Security-Token",
-                  "X-Amz-User-Agent"
-                ],
-                "allowCredentials": false
-              },
+              "path": "product",
               "integration": "AWS_PROXY"
             }
           }
@@ -1168,7 +1088,7 @@
         "timeout": 6,
         "runtime": "nodejs14.x",
         "vpc": {},
-        "versionLogicalId": "GetProductsLambdaVersionuJ1EkYbeMsrzBo8QKdiUpEmBGzRqcirbDXrcXWESMrg"
+        "versionLogicalId": "GetProductsLambdaVersion6fdebKqjbxAQ9ZElfNGzelgMlrkOEjppPkB9Lx4BBCw"
       },
       "getCatById": {
         "handler": "src/functions/getProductsById/handler.main",
@@ -1208,7 +1128,7 @@
         "timeout": 6,
         "runtime": "nodejs14.x",
         "vpc": {},
-        "versionLogicalId": "GetCatByIdLambdaVersionpmpWUosKYuiGGpDJfZgNGFw97IVS1SklK7hvh4IHf4"
+        "versionLogicalId": "GetCatByIdLambdaVersion1bf4MBcUqd4dAPs8Q67MK0LPUuPsa36OmDLYqZ1FJc"
       },
       "createProduct": {
         "handler": "src/functions/createProduct/handler.main",
@@ -1236,7 +1156,7 @@
         "timeout": 6,
         "runtime": "nodejs14.x",
         "vpc": {},
-        "versionLogicalId": "CreateProductLambdaVersionfneXDfITpYgb7zY2d6ZVDxJtbwja0ic1SMtESNfLXw"
+        "versionLogicalId": "CreateProductLambdaVersion7iNbmpAiDDq3Sn0ugqHtUbi9cmGEL4GOutRc3NUYm8"
       }
     },
     "configValidationMode": "warn",
@@ -1263,7 +1183,7 @@
     "isDashboardMonitoringPreconfigured": false
   },
   "package": {
-    "artifactDirectoryName": "serverless/cats-shop-service/dev/1628848453706-2021-08-13T09:54:13.706Z",
+    "artifactDirectoryName": "serverless/cats-shop-service/dev/1629709737360-2021-08-23T09:08:57.360Z",
     "artifact": ""
   }
 }
