@@ -5,7 +5,7 @@ import {middyfy} from '@libs/lambda';
 
 import cats from "../../cats";
 
-const getCatById = async (e): Promise<Record<string, unknown>> => {
+export const getCatById = async (e) => {
     try {
         const catId = e.pathParameters.id;
         const filteredCats = cats.filter(cat => cat.id == catId)
