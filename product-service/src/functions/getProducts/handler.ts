@@ -32,7 +32,7 @@ const cats: ICat[] = [
     },
 ]
 
-const getCats = async () => {
+export const getCats = async () => {
     return formatJSONResponse(
         {
             cats,
