@@ -1,5 +1,6 @@
 import type {AWS} from '@serverless/typescript';
 
+
 import {getCatById, getProducts, hello, createProduct} from "@functions/index";
 
 const serverlessConfiguration: AWS = {

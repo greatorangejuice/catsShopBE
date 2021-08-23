@@ -7,7 +7,7 @@ export default {
     {
       http: {
         method: 'post',
-        path: 'create-product',
+        path: 'products',
         request: {
           schema: {
             'application/json': schema
