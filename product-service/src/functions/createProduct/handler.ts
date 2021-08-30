@@ -36,12 +36,12 @@ const createProduct: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (
 
         return formatJSONResponse({
             message: `New kittens by ${name} added.`
-        });
+        }, 201);
     } catch (e) {
         return formatJSONResponse({
             message: `${e.message}`,
             code: 'BAD REQUEST'
-        });
+        }, 400);
     } finally {
         client.end()
     }

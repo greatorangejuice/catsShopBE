@@ -29,9 +29,11 @@ const getCatById = async (e) => {
         )
         return formatJSONResponse({
             cats: rows,
-        });
+        }, 200);
     } catch (e) {
-
+        return formatJSONResponse({
+            message: e.message,
+        }, 400);
     } finally {
         client.end()
     }

@@ -29,7 +29,9 @@ const getCats = async () => {
             cats: rows,
         });
     } catch (e) {
-
+        return formatJSONResponse({
+            message: e.message,
+        }, 400);
     } finally {
         client.end()
     }
