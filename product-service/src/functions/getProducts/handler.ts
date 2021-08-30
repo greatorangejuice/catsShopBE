@@ -17,9 +17,10 @@ const dbOptions = {
     connectionTimeoutMillis: 5000,
 }
 
-const getCats = async () => {
+const getCats = async (e) => {
     const client = new Client(dbOptions);
     await client.connect();
+    console.log(`Get cats: `, e)
 
     try {
         const {rows} = await client.query(

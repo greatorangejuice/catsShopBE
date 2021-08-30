@@ -23,7 +23,7 @@ const createProduct: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (
     const client = new Client(dbOptions);
     await client.connect();
     const {name, price, birthday, breedid, imglink, count} = e.body;
-
+    console.log(`Create product: `, e)
     try {
         const kittens = await client.query(
             `insert into cats(name, price, birthday, imglink, breedid) values ('${name}', ${price}, '${birthday}', '${imglink}', ${breedid}) returning id`

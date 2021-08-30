@@ -20,6 +20,7 @@ const dbOptions = {
 const getCatById = async (e) => {
     const client = new Client(dbOptions);
     await client.connect();
+    console.log(`Get cat by id: `, e)
 
     try {
         const catId = e.pathParameters.id;
