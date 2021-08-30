@@ -1,6 +1,8 @@
 import 'source-map-support/register';
 import {middyfy} from '@libs/lambda';
 import {Client} from 'pg';
+const AWS = require('aws-sdk')
+
 
 const {PG_HOST, PG_PORT, PG_DATABASE, PG_USERNAME, PG_PASSWORD} = process.env;
 const dbOptions = {
@@ -16,6 +18,8 @@ const dbOptions = {
 }
 
 const catalogBatchProcess = async (event) => {
+    const sns = new AWS.SNS({region: 'eu-west-1'});
+
     const products = event.Records.map(({body}) => body);
     const parsedProducts = JSON.parse(products);
 
@@ -35,6 +39,14 @@ const catalogBatchProcess = async (event) => {
             `insert into kittens (cat_id, count) VALUES ('${kittensId}', ${count})`
         )
         console.log(`New kittens by ${title} added.`)
+        sns.publish({
+            Subject: 'New products was added in database',
+            Message: JSON.stringify(parsedProducts),
+            TopicArn: process.env.SNS_ARN
+        }, () => {
+            console.log('Send email for: ', JSON.stringify(parsedProducts));
+        })
+
     } catch (e) {
         console.error(e.message)
     } finally {

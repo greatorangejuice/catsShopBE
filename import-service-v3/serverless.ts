@@ -1,6 +1,6 @@
 import type {AWS} from '@serverless/typescript';
 
-import {importFileParser, importProductsFile, catalogBatchProcess} from "@functions/index";
+import {catalogBatchProcess, importFileParser, importProductsFile} from "@functions/index";
 
 const serverlessConfiguration: AWS = {
     service: 'import-service-v3',
@@ -25,7 +25,14 @@ const serverlessConfiguration: AWS = {
             SQS_URL: {
                 Ref: 'SQSQueue'
             },
-
+            SNS_ARN: {
+                Ref: 'SNSTopic'
+            },
+            PG_HOST: 'postgres-db-0.cccgaep08fok.eu-west-1.rds.amazonaws.com',
+            PG_PORT: '5432',
+            PG_DATABASE: 'catsDB',
+            PG_USERNAME: 'postgres',
+            PG_PASSWORD: 'jimbowimbo9W',
         },
         lambdaHashingVersion: '20201221',
         iamRoleStatements: [
@@ -45,6 +52,13 @@ const serverlessConfiguration: AWS = {
                 Resource: {
                     "Fn::GetAtt": ['SQSQueue', 'Arn']
                 }
+            },
+            {
+                Effect: 'Allow',
+                Action: 'sns:*',
+                Resource: {
+                    'Ref': 'SNSTopic'
+                }
             }
         ]
     },
@@ -54,6 +68,22 @@ const serverlessConfiguration: AWS = {
                 Type: 'AWS::SQS::Queue',
                 Properties: {
                     ['QueueName']: 'import-service-sqs-parse',
+                }
+            },
+            ['SNSTopic']: {
+                Type: 'AWS::SNS::Topic',
+                Properties: {
+                    ['TopicName']: 'createProductTopic',
+                }
+            },
+            ['SNSSubscription']: {
+                Type: 'AWS::SNS::Subscription',
+                Properties: {
+                    Endpoint: 'bypavelsnigirev@gmail.com',
+                    Protocol: 'email',
+                    TopicArn: {
+                        Ref: 'SNSTopic'
+                    }
                 }
             }
         }
