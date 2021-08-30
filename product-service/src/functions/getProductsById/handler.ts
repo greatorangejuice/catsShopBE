@@ -2,36 +2,40 @@ import 'source-map-support/register';
 
 import {formatJSONResponse} from '@libs/apiGateway';
 import {middyfy} from '@libs/lambda';
+import {Client} from 'pg';
 
-import cats from "../../cats";
+const {PG_HOST, PG_PORT, PG_DATABASE, PG_USERNAME, PG_PASSWORD} = process.env;
+const dbOptions = {
+    host: PG_HOST,
+    port: PG_PORT,
+    database: PG_DATABASE,
+    user: PG_USERNAME,
+    password: PG_PASSWORD,
+    ssl: {
+        rejectUnauthorized: false,
+    },
+    connectionTimeoutMillis: 5000,
+}
 
-const getCatById = async (e): Promise<Record<string, unknown>> => {
+const getCatById = async (e) => {
+    const client = new Client(dbOptions);
+    await client.connect();
+
     try {
         const catId = e.pathParameters.id;
-        const filteredCats = cats.filter(cat => cat.id == catId)
-
-        if (filteredCats.length > 0) {
-            return formatJSONResponse(
-                {
-                    cats: filteredCats
-                });
-        } else if (filteredCats.length === 0) {
-            return formatJSONResponse(
-                {
-                    message: 'Cat not found',
-                    cats: []
-                },
-                404
-            )
-        }
-    } catch (e) {
-        return formatJSONResponse(
-            {
-                message: e.message,
-            },
-            400
+        const {rows} = await client.query(
+            `select cats.id, cats.title, cats.price, cats.birthday, cats.imgLink as imgLink, b.title as breed, b.description, k.count from cats inner join breeds b on b.id = cats.breedid inner join kittens k on cats.id = k.cat_id 
+             where cats.id = '${catId}';`
         )
+        return formatJSONResponse({
+            cats: rows,
+        });
+    } catch (e) {
+
+    } finally {
+        client.end()
     }
+
 }
 
 export const main = middyfy(getCatById);

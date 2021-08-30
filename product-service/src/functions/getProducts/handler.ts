@@ -2,41 +2,38 @@ import 'source-map-support/register';
 
 import {formatJSONResponse} from '@libs/apiGateway';
 import {middyfy} from '@libs/lambda';
-import {ICat} from "@functions/models/cat.interface";
-import {EBreed} from "@functions/models/breed.interface";
+import {Client} from 'pg';
 
-const cats: ICat[] = [
-    {
-        name: 'Tom',
-        age: 1,
-        breed: EBreed.AbyssinianCat,
-        price: 100,
-        id: 0,
-        imgLink: 'https://www.thesprucepets.com/thmb/7p0TopOHEHX3aQsdYzRdidbS0Lo=/2121x1414/filters:fill(auto,1)/GettyImages-165827729-efc11c02690f457a81ef6ccbfa8eb34d.jpg'
+const {PG_HOST, PG_PORT, PG_DATABASE, PG_USERNAME, PG_PASSWORD} = process.env;
+const dbOptions = {
+    host: PG_HOST,
+    port: PG_PORT,
+    database: PG_DATABASE,
+    user: PG_USERNAME,
+    password: PG_PASSWORD,
+    ssl: {
+        rejectUnauthorized: false,
     },
-    {
-        name: 'Jacky',
-        age: 1.5,
-        breed: EBreed.AmericanCurlCatBreed,
-        price: 110,
-        id: 1,
-        imgLink: 'https://www.hospitalveterinariglories.com/wp-content/uploads/2021/02/17-02-21-Descubre-la-espectacular-raza-de-gato-American-Curl-676x451.jpg'
-    },
-    {
-        name: 'Jacky',
-        age: 1.5,
-        breed: EBreed.AmericanBobtailCatBreed,
-        price: 100,
-        id: 2,
-        imgLink: 'https://d17fnq9dkz9hgj.cloudfront.net/breed-uploads/2018/08/American-Bobtail-01.jpg?bust=1539031086&width=355'
-    },
-]
+    connectionTimeoutMillis: 5000,
+}
 
 const getCats = async () => {
-    return formatJSONResponse(
-        {
-            cats,
+    const client = new Client(dbOptions);
+    await client.connect();
+
+    try {
+        const {rows} = await client.query(
+            `select cats.id, cats.title, cats.price, cats.birthday, cats.imgLink as imgLink, b.title as breed, b.description, k.count from cats inner join breeds b on b.id = cats.breedid inner join kittens k on cats.id = k.cat_id;`
+        )
+        return formatJSONResponse({
+            cats: rows,
         });
+    } catch (e) {
+
+    } finally {
+        client.end()
+    }
+
 }
 
 export const main = middyfy(getCats);
