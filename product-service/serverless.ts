@@ -1,7 +1,7 @@
 import type {AWS} from '@serverless/typescript';
 
 
-import {getCatById, getProducts, hello, createProduct} from "@functions/index";
+import {getCatById, getProducts, createProduct} from "@functions/index";
 
 const serverlessConfiguration: AWS = {
     service: 'cats-shop-service',
@@ -22,11 +22,18 @@ const serverlessConfiguration: AWS = {
             minimumCompressionSize: 1024,
             shouldStartNameWithService: true,
         },
-
+        environment: {
+            AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
+            PG_HOST: 'postgres-db-0.cccgaep08fok.eu-west-1.rds.amazonaws.com',
+            PG_PORT: '5432',
+            PG_DATABASE: 'catsDB',
+            PG_USERNAME: 'postgres',
+            PG_PASSWORD: 'jimbowimbo9W',
+        },
         lambdaHashingVersion: '20201221',
     },
     // import the function via paths
-    functions: {hello, getProducts, getCatById, createProduct},
+    functions: {getProducts, getCatById, createProduct},
 };
 
 module.exports = serverlessConfiguration;

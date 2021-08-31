@@ -19,14 +19,14 @@ const dbOptions = {
     connectionTimeoutMillis: 5000,
 }
 
-const createProduct: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (e) => {
+export const createProduct: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (e) => {
     const client = new Client(dbOptions);
     await client.connect();
-    const {name, price, birthday, breedid, imglink, count} = e.body;
+    const {title, price, birthday, breedid, imglink, count} = e.body;
 
     try {
         const kittens = await client.query(
-            `insert into cats(name, price, birthday, imglink, breedid) values ('${name}', ${price}, '${birthday}', '${imglink}', ${breedid}) returning id`
+            `insert into cats(title, price, birthday, imglink, breedid) values ('${title}', ${price}, '${birthday}', '${imglink}', ${breedid}) returning id`
         )
         const kittensId = kittens.rows.find(item => item).id;
 
@@ -35,7 +35,7 @@ const createProduct: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (
         )
 
         return formatJSONResponse({
-            message: `New kittens by ${name} added.`
+            message: `New kittens by ${title} added.`
         });
     } catch (e) {
         return formatJSONResponse({
