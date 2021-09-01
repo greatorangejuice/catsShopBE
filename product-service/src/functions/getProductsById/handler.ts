@@ -28,9 +28,16 @@ export const getCatById = async (e) => {
             `select cats.id, cats.title, cats.price, cats.birthday, cats.imgLink as imgLink, b.title as breed, b.description, k.count from cats inner join breeds b on b.id = cats.breedid inner join kittens k on cats.id = k.cat_id 
              where cats.id = '${catId}';`
         )
-        return formatJSONResponse({
-            cats: rows,
-        }, 200);
+        if (rows.length !== 0) {
+            return formatJSONResponse({
+                cats: rows,
+            }, 200);
+        } else {
+            return formatJSONResponse({
+                message: 'Cat was not found'
+            }, 404);
+        }
+
     } catch (e) {
         return formatJSONResponse({
             message: e.message,

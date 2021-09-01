@@ -1,0 +1,13 @@
+{
+  "pathParameters": {
+    "id": "b53b0c36-6397-4719-8104-29e6d524f03b"
+  },
+  "body": {
+    "title": "JackyMan",
+    "price": 550,
+    "count": 3,
+    "breedid": 1,
+    "birthday": "10.08.2021",
+    "imglink": "https://www.guildinsurance.com.au/images/librariesprovider3/breed-images/500x500/cat_abyssinian.jpg?sfvrsn=4a16600b_2"
+  }
+}
