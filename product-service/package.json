@@ -15,7 +15,8 @@
     "aws-sdk": "^2.969.0",
     "pg": "^8.7.1",
     "source-map-support": "^0.5.19",
-    "ts-jest": "^27.0.5"
+    "ts-jest": "^27.0.5",
+    "yup": "^0.32.9"
   },
   "devDependencies": {
     "@serverless/typescript": "^2.23.0",

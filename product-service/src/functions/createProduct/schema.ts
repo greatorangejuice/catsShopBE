@@ -1,7 +1,8 @@
 export default {
   type: "object",
   properties: {
-    name: { type: 'string' },
+    title: { type: 'string' },
+    count: {type: 'number'}
   },
-  required: ['name']
+  required: ['title']
 } as const;
