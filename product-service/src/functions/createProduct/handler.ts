@@ -1,10 +1,9 @@
 import 'source-map-support/register';
 
-import type {ValidatedEventAPIGatewayProxyEvent} from '@libs/apiGateway';
 import {formatJSONResponse} from '@libs/apiGateway';
 import {middyfy} from '@libs/lambda';
-import schema from './schema';
 import {Client} from 'pg';
+import {CatSchema, ICat} from "../../models/cat";
 
 const {PG_HOST, PG_PORT, PG_DATABASE, PG_USERNAME, PG_PASSWORD} = process.env;
 const dbOptions = {
@@ -19,14 +18,25 @@ const dbOptions = {
     connectionTimeoutMillis: 5000,
 }
 
-const createProduct: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (e) => {
+export const createProduct = async (e) => {
     const client = new Client(dbOptions);
     await client.connect();
-    const {name, price, birthday, breedid, imglink, count} = e.body;
-    console.log(`Create product: `, e)
+    const {title, price, birthday, breedid, imglink, count} = e.body;
+    const cat: ICat = {title, price, birthday, breedid, imglink, count};
+    let isDataValid = true;
+
     try {
+        await CatSchema.isValid(cat).then((isValid) => {
+            isDataValid = isValid
+        })
+        if (!isDataValid) {
+            return formatJSONResponse({
+                message: `Insert data is invalid`,
+            }, 400);
+        }
+
         const kittens = await client.query(
-            `insert into cats(name, price, birthday, imglink, breedid) values ('${name}', ${price}, '${birthday}', '${imglink}', ${breedid}) returning id`
+            `insert into cats(title, price, birthday, imglink, breedid) values ('${title}', ${price}, '${birthday}', '${imglink}', ${breedid}) returning id`
         )
         const kittensId = kittens.rows.find(item => item).id;
 
@@ -35,13 +45,12 @@ const createProduct: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (
         )
 
         return formatJSONResponse({
-            message: `New kittens by ${name} added.`
-        }, 201);
+            message: `New kittens by ${title} added.`
+        });
     } catch (e) {
         return formatJSONResponse({
             message: `${e.message}`,
-            code: 'BAD REQUEST'
-        }, 400);
+        }, 500);
     } finally {
         client.end()
     }
