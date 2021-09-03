@@ -20,13 +20,13 @@ const dbOptions = {
 export const getCatById = async (e) => {
     const client = new Client(dbOptions);
     await client.connect();
-    console.log(`Get cat by id: `, e)
+    console.log(`Get toy by id: `, e)
 
     try {
-        const catId = e.pathParameters.id;
+        const toyId = e.pathParameters.id;
         const {rows} = await client.query(
-            `select cats.id, cats.title, cats.price, cats.birthday, cats.imgLink as imgLink, b.title as breed, b.description, k.count from cats inner join breeds b on b.id = cats.breedid inner join kittens k on cats.id = k.cat_id 
-             where cats.id = '${catId}';`
+            `select p.title, p.description, p.price, s.count from products as p inner join stocks s on p.id = s.product_id
+             where p.id = '${toyId}'`
         )
         if (rows.length !== 0) {
             return formatJSONResponse({
@@ -34,7 +34,7 @@ export const getCatById = async (e) => {
             }, 200);
         } else {
             return formatJSONResponse({
-                message: 'Cat was not found'
+                message: 'Toy was not found'
             }, 404);
         }
 

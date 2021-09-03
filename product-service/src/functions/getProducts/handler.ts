@@ -23,8 +23,11 @@ export const getCats = async (e) => {
     console.log(`Get cats: `, e)
 
     try {
+        // const {rows} = await client.query(
+        //     `select cats.id, cats.title, cats.price, cats.birthday, cats.imgLink as imgLink, b.title as breed, b.description, k.count from cats inner join breeds b on b.id = cats.breedid inner join kittens k on cats.id = k.cat_id;`
+        // )
         const {rows} = await client.query(
-            `select cats.id, cats.title, cats.price, cats.birthday, cats.imgLink as imgLink, b.title as breed, b.description, k.count from cats inner join breeds b on b.id = cats.breedid inner join kittens k on cats.id = k.cat_id;`
+            `select p.title, p.description, p.price, p.imglink, s.count from products as p inner join stocks s on p.id = s.product_id`
         )
         return formatJSONResponse({
             cats: rows,

@@ -1,13 +1,12 @@
 {
   "pathParameters": {
-    "id": "b53b0c36-6397-4719-8104-29e6d524f03b"
+    "id": "22cd4bf8-bc47-44f3-aabd-fbb51acfab15"
   },
   "body": {
-    "title": 1,
+    "title": "Good toy",
     "price": 550,
+    "description": "Toy for all cats",
     "count": 3,
-    "breedid": 1,
-    "birthday": "10.08.2021",
     "imglink": "https://www.guildinsurance.com.au/images/librariesprovider3/breed-images/500x500/cat_abyssinian.jpg?sfvrsn=4a16600b_2"
   }
 }
