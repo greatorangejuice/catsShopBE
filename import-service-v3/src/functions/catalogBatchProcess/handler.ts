@@ -1,6 +1,7 @@
 import 'source-map-support/register';
 import {middyfy} from '@libs/lambda';
 import {Client} from 'pg';
+
 const AWS = require('aws-sdk')
 
 
@@ -23,22 +24,22 @@ const catalogBatchProcess = async (event) => {
     const products = event.Records.map(({body}) => body);
     const parsedProducts = JSON.parse(products);
 
-    const {title, price, birthday, imglink, breedid, count} = parsedProducts;
-    console.log('Parsed data: ', title, price, birthday, breedid, imglink, count);
+    const {title, price, description, imglink, count} = parsedProducts;
+    console.log('Parsed data: ', title, price, imglink, description, count);
 
     const client = new Client(dbOptions);
     await client.connect();
 
     try {
-        const kittens = await client.query(
-            `insert into cats(title, price, birthday, imglink, breedid) values ('${title}', ${price}, '${birthday}', '${imglink}', ${breedid}) returning id`
+        const products = await client.query(
+            `insert into products(title, price, description, imglink) values ('${title}', ${price}, '${description}', '${imglink}') returning id`
         )
-        const kittensId = kittens.rows.find(item => item).id;
+        const productId = products.rows.find(item => item).id;
 
         await client.query(
-            `insert into kittens (cat_id, count) VALUES ('${kittensId}', ${count})`
+            `insert into stocks (product_id, count) VALUES ('${productId}', ${count})`
         )
-        console.log(`New kittens by ${title} added.`)
+        console.log(`New toys added.`)
         sns.publish({
             Subject: 'New products was added in database',
             Message: JSON.stringify(parsedProducts),
