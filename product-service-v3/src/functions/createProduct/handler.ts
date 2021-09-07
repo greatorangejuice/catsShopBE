@@ -26,6 +26,7 @@ const createProduct: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (
     let {title, price, description, imglink, count} = e.body;
     console.log('Create product', e)
     try {
+        await client.query('BEGIN');
         if (!imglink) {
             imglink = 'https://upload.wikimedia.org/wikipedia/en/6/60/No_Picture.jpg'
         }
@@ -38,11 +39,13 @@ const createProduct: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (
         await client.query(
             `insert into stocks (product_id, count) VALUES ('${toyId}', ${count})`
         )
+        await client.query('COMMIT')
 
         return formatJSONResponse({
             message: `New toy ${title} added.`
         });
     } catch (e) {
+        await client.query('ROLLBACK')
         return formatJSONResponse({
             message: `${e.message}`,
         }, 500);
