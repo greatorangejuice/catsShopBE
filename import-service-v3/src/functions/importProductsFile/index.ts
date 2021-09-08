@@ -9,7 +9,12 @@ export default {
         path: 'import',
         request: {
           parameters: {
-            ['name']: true,
+            name: true,
+          }
+        },
+        authorizer: {
+          arn: {
+            "Fn::ImportValue": "AuthorizationARN"
           }
         }
       }
