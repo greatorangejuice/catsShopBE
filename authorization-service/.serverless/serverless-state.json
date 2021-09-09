@@ -91,12 +91,6 @@
               }
             }
           },
-          "HelloLogGroup": {
-            "Type": "AWS::Logs::LogGroup",
-            "Properties": {
-              "LogGroupName": "/aws/lambda/authorization-service-dev-hello"
-            }
-          },
           "BasicAuthorizerLogGroup": {
             "Type": "AWS::Logs::LogGroup",
             "Properties": {
@@ -180,36 +174,6 @@
               }
             }
           },
-          "HelloLambdaFunction": {
-            "Type": "AWS::Lambda::Function",
-            "Properties": {
-              "Code": {
-                "S3Bucket": {
-                  "Ref": "ServerlessDeploymentBucket"
-                },
-                "S3Key": "serverless/authorization-service/dev/1631115860201-2021-09-08T15:44:20.201Z/authorization-service.zip"
-              },
-              "Handler": "src/functions/hello/handler.main",
-              "Runtime": "nodejs14.x",
-              "FunctionName": "authorization-service-dev-hello",
-              "MemorySize": 1024,
-              "Timeout": 6,
-              "Environment": {
-                "Variables": {
-                  "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1"
-                }
-              },
-              "Role": {
-                "Fn::GetAtt": [
-                  "IamRoleLambdaExecution",
-                  "Arn"
-                ]
-              }
-            },
-            "DependsOn": [
-              "HelloLogGroup"
-            ]
-          },
           "BasicAuthorizerLambdaFunction": {
             "Type": "AWS::Lambda::Function",
             "Properties": {
@@ -217,7 +181,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/authorization-service/dev/1631115860201-2021-09-08T15:44:20.201Z/authorization-service.zip"
+                "S3Key": "serverless/authorization-service/dev/1631201316085-2021-09-09T15:28:36.085Z/authorization-service.zip"
               },
               "Handler": "src/functions/basicAuthorizer/handler.main",
               "Runtime": "nodejs14.x",
@@ -240,186 +204,14 @@
               "BasicAuthorizerLogGroup"
             ]
           },
-          "HelloLambdaVersiongYe5kmcAEfd1vwHt6xP2Mo66dU4DMhaF5Q3A9Y4oTds": {
-            "Type": "AWS::Lambda::Version",
-            "DeletionPolicy": "Retain",
-            "Properties": {
-              "FunctionName": {
-                "Ref": "HelloLambdaFunction"
-              },
-              "CodeSha256": "i94ltfmwWYfJVxeFRjiGq8VjYPX6N4Bt126H7un52Fw="
-            }
-          },
-          "BasicAuthorizerLambdaVersionXMRBiomgHhWtPBEIDMP7YhL2ro66eadQXYGtnIz8U": {
+          "BasicAuthorizerLambdaVersionAj5aXr7ZYIFspRGZvTfqMqFbGcE0ySCSEW9HX7t8Bo": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "BasicAuthorizerLambdaFunction"
               },
-              "CodeSha256": "i94ltfmwWYfJVxeFRjiGq8VjYPX6N4Bt126H7un52Fw="
-            }
-          },
-          "ApiGatewayRestApi": {
-            "Type": "AWS::ApiGateway::RestApi",
-            "Properties": {
-              "Name": "authorization-service-dev",
-              "EndpointConfiguration": {
-                "Types": [
-                  "EDGE"
-                ]
-              },
-              "Policy": "",
-              "MinimumCompressionSize": 1024
-            }
-          },
-          "ApiGatewayResourceHello": {
-            "Type": "AWS::ApiGateway::Resource",
-            "Properties": {
-              "ParentId": {
-                "Fn::GetAtt": [
-                  "ApiGatewayRestApi",
-                  "RootResourceId"
-                ]
-              },
-              "PathPart": "hello",
-              "RestApiId": {
-                "Ref": "ApiGatewayRestApi"
-              }
-            }
-          },
-          "ApiGatewayMethodHelloPost": {
-            "Type": "AWS::ApiGateway::Method",
-            "Properties": {
-              "HttpMethod": "POST",
-              "RequestParameters": {},
-              "ResourceId": {
-                "Ref": "ApiGatewayResourceHello"
-              },
-              "RestApiId": {
-                "Ref": "ApiGatewayRestApi"
-              },
-              "ApiKeyRequired": false,
-              "AuthorizationType": "NONE",
-              "Integration": {
-                "IntegrationHttpMethod": "POST",
-                "Type": "AWS_PROXY",
-                "Uri": {
-                  "Fn::Join": [
-                    "",
-                    [
-                      "arn:",
-                      {
-                        "Ref": "AWS::Partition"
-                      },
-                      ":apigateway:",
-                      {
-                        "Ref": "AWS::Region"
-                      },
-                      ":lambda:path/2015-03-31/functions/",
-                      {
-                        "Fn::GetAtt": [
-                          "HelloLambdaFunction",
-                          "Arn"
-                        ]
-                      },
-                      "/invocations"
-                    ]
-                  ]
-                }
-              },
-              "MethodResponses": [],
-              "RequestValidatorId": {
-                "Ref": "ApiGatewayAuthorizationserviceRequestValidator"
-              },
-              "RequestModels": {
-                "application/json": {
-                  "Ref": "ApiGatewayMethodHelloPostApplicationJsonModel"
-                }
-              }
-            },
-            "DependsOn": [
-              "HelloLambdaPermissionApiGateway"
-            ]
-          },
-          "ApiGatewayAuthorizationserviceRequestValidator": {
-            "Type": "AWS::ApiGateway::RequestValidator",
-            "Properties": {
-              "RestApiId": {
-                "Ref": "ApiGatewayRestApi"
-              },
-              "ValidateRequestBody": true,
-              "ValidateRequestParameters": true,
-              "Name": "authorization-service-dev | Validate request body and querystring parameters"
-            }
-          },
-          "ApiGatewayMethodHelloPostApplicationJsonModel": {
-            "Type": "AWS::ApiGateway::Model",
-            "Properties": {
-              "RestApiId": {
-                "Ref": "ApiGatewayRestApi"
-              },
-              "ContentType": "application/json",
-              "Schema": {
-                "type": "object",
-                "properties": {
-                  "name": {
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "name"
-                ]
-              }
-            }
-          },
-          "ApiGatewayDeployment1631115853282": {
-            "Type": "AWS::ApiGateway::Deployment",
-            "Properties": {
-              "RestApiId": {
-                "Ref": "ApiGatewayRestApi"
-              },
-              "StageName": "dev"
-            },
-            "DependsOn": [
-              "ApiGatewayMethodHelloPost"
-            ]
-          },
-          "HelloLambdaPermissionApiGateway": {
-            "Type": "AWS::Lambda::Permission",
-            "Properties": {
-              "FunctionName": {
-                "Fn::GetAtt": [
-                  "HelloLambdaFunction",
-                  "Arn"
-                ]
-              },
-              "Action": "lambda:InvokeFunction",
-              "Principal": "apigateway.amazonaws.com",
-              "SourceArn": {
-                "Fn::Join": [
-                  "",
-                  [
-                    "arn:",
-                    {
-                      "Ref": "AWS::Partition"
-                    },
-                    ":execute-api:",
-                    {
-                      "Ref": "AWS::Region"
-                    },
-                    ":",
-                    {
-                      "Ref": "AWS::AccountId"
-                    },
-                    ":",
-                    {
-                      "Ref": "ApiGatewayRestApi"
-                    },
-                    "/*/*"
-                  ]
-                ]
-              }
+              "CodeSha256": "OmImvU61oAgLuUXboqdeDODpVCLNPdKogc82jmNKR1A="
             }
           }
         },
@@ -432,48 +224,13 @@
               "Name": "sls-authorization-service-dev-ServerlessDeploymentBucketName"
             }
           },
-          "HelloLambdaFunctionQualifiedArn": {
-            "Description": "Current Lambda function version",
-            "Value": {
-              "Ref": "HelloLambdaVersiongYe5kmcAEfd1vwHt6xP2Mo66dU4DMhaF5Q3A9Y4oTds"
-            },
-            "Export": {
-              "Name": "sls-authorization-service-dev-HelloLambdaFunctionQualifiedArn"
-            }
-          },
           "BasicAuthorizerLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "BasicAuthorizerLambdaVersionXMRBiomgHhWtPBEIDMP7YhL2ro66eadQXYGtnIz8U"
+              "Ref": "BasicAuthorizerLambdaVersionAj5aXr7ZYIFspRGZvTfqMqFbGcE0ySCSEW9HX7t8Bo"
             },
             "Export": {
               "Name": "sls-authorization-service-dev-BasicAuthorizerLambdaFunctionQualifiedArn"
-            }
-          },
-          "ServiceEndpoint": {
-            "Description": "URL of the service endpoint",
-            "Value": {
-              "Fn::Join": [
-                "",
-                [
-                  "https://",
-                  {
-                    "Ref": "ApiGatewayRestApi"
-                  },
-                  ".execute-api.",
-                  {
-                    "Ref": "AWS::Region"
-                  },
-                  ".",
-                  {
-                    "Ref": "AWS::URLSuffix"
-                  },
-                  "/dev"
-                ]
-              ]
-            },
-            "Export": {
-              "Name": "sls-authorization-service-dev-ServiceEndpoint"
             }
           },
           "AuthorizationARN": {
@@ -585,34 +342,6 @@
     ],
     "pluginsData": {},
     "functions": {
-      "hello": {
-        "handler": "src/functions/hello/handler.main",
-        "events": [
-          {
-            "http": {
-              "method": "post",
-              "path": "hello",
-              "request": {
-                "schema": {
-                  "application/json": {
-                    "$ref": "$[\"service\"][\"provider\"][\"compiledCloudFormationTemplate\"][\"Resources\"][\"ApiGatewayMethodHelloPostApplicationJsonModel\"][\"Properties\"][\"Schema\"]"
-                  }
-                }
-              },
-              "integration": "AWS_PROXY"
-            }
-          }
-        ],
-        "name": "authorization-service-dev-hello",
-        "package": {
-          "artifact": ".serverless\\authorization-service.zip"
-        },
-        "memory": 1024,
-        "timeout": 6,
-        "runtime": "nodejs14.x",
-        "vpc": {},
-        "versionLogicalId": "HelloLambdaVersiongYe5kmcAEfd1vwHt6xP2Mo66dU4DMhaF5Q3A9Y4oTds"
-      },
       "basicAuthorizer": {
         "handler": "src/functions/basicAuthorizer/handler.main",
         "events": [],
@@ -624,7 +353,7 @@
         "timeout": 6,
         "runtime": "nodejs14.x",
         "vpc": {},
-        "versionLogicalId": "BasicAuthorizerLambdaVersionXMRBiomgHhWtPBEIDMP7YhL2ro66eadQXYGtnIz8U"
+        "versionLogicalId": "BasicAuthorizerLambdaVersionAj5aXr7ZYIFspRGZvTfqMqFbGcE0ySCSEW9HX7t8Bo"
       }
     },
     "resources": {
@@ -671,7 +400,7 @@
     "isDashboardMonitoringPreconfigured": false
   },
   "package": {
-    "artifactDirectoryName": "serverless/authorization-service/dev/1631115860201-2021-09-08T15:44:20.201Z",
+    "artifactDirectoryName": "serverless/authorization-service/dev/1631201316085-2021-09-09T15:28:36.085Z",
     "artifact": ""
   }
 }
