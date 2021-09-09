@@ -28,11 +28,6 @@ const serverlessConfiguration: AWS = {
             SNS_ARN: {
                 Ref: 'SNSTopic'
             },
-            PG_HOST: 'postgres-db-0.cccgaep08fok.eu-west-1.rds.amazonaws.com',
-            PG_PORT: '5432',
-            PG_DATABASE: 'catsDB',
-            PG_USERNAME: 'postgres',
-            PG_PASSWORD: 'jimbowimbo9W',
         },
         lambdaHashingVersion: '20201221',
         iamRoleStatements: [
