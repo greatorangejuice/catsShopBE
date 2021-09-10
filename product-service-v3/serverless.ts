@@ -20,14 +20,6 @@ const serverlessConfiguration: AWS = {
       minimumCompressionSize: 1024,
       shouldStartNameWithService: true,
     },
-    environment: {
-      AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
-      PG_HOST: `${process.env.PG_HOST}`,
-      PG_PORT: `${process.env.PG_PORT}`,
-      PG_DATABASE: `${process.env.PG_DATABASE}`,
-      PG_USERNAME: `${process.env.PG_USEERNAME}`,
-      PG_PASSWORD: `${process.env.PG_PASSWORD}`,
-    },
     lambdaHashingVersion: '20201221',
   },
   functions: { hello, getProducts, getProductById, createProduct }
