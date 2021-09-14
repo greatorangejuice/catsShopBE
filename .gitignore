@@ -1,2 +1,4 @@
 # Project exclude paths
 /product-service/node_modules/
+.idea
+.env
