@@ -22,8 +22,11 @@ export const importProductsFile = async (event) => {
         ContentType: 'text/csv',
     };
     try {
-        const newUrl = await s3.getSignedUrlPromise('putObject', params)
-        return formatJSONResponse(newUrl)
+        let result = '';
+        await s3.getSignedUrlPromise('putObject', params).then((url) => {
+            result = url
+        })
+        return formatJSONResponse({newUrl: result})
     } catch (e) {
         console.error(e)
         return formatJSONResponse({message: e.message}, 400)

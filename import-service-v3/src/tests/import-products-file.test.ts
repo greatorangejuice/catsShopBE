@@ -14,5 +14,5 @@ test('getProductsById should return response with empty cats array and message w
         }
     })
     const url = result.body;
-    expect(url).toEqual(`"${mockedSignedUrl}"`);
+    expect(url).toMatch(`"${mockedSignedUrl}"`);
 });
