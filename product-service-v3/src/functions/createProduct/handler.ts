@@ -3,21 +3,9 @@ import type {ValidatedEventAPIGatewayProxyEvent} from '@libs/apiGateway';
 import {formatJSONResponse} from '@libs/apiGateway';
 import {middyfy} from '@libs/lambda';
 import {Client} from 'pg';
-
 import schema from './schema';
 
-const {PG_HOST, PG_PORT, PG_DATABASE, PG_USERNAME, PG_PASSWORD} = process.env;
-const dbOptions = {
-    host: PG_HOST,
-    port: PG_PORT,
-    database: PG_DATABASE,
-    user: PG_USERNAME,
-    password: PG_PASSWORD,
-    ssl: {
-        rejectUnauthorized: false,
-    },
-    connectionTimeoutMillis: 5000,
-}
+import {dbOptions} from "../../constants/db-options";
 
 const createProduct: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (e) => {
     const client = new Client(dbOptions);

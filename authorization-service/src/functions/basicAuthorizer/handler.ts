@@ -9,6 +9,7 @@ const basicAuthorizer = async (event, ctx, cb) => {
     console.log(JSON.stringify(event));
 
     if (event['type'] != 'TOKEN') {
+        console.log('IN FIRST CONDITION')
         cb('Unauthorized')
     }
 
@@ -30,16 +31,17 @@ const basicAuthorizer = async (event, ctx, cb) => {
 
     try {
         const authorizationToken = event.authorizationToken;
+        console.log(`AUTH TOKEN: ${authorizationToken}`);
 
         const encodedCreds = authorizationToken.split(' ')[1];
         const buff = Buffer.from(encodedCreds, 'base64');
         const plainCreds = buff.toString('utf-8').split(':');
         const username = plainCreds[0];
         const password = plainCreds[1];
-
         console.log(username, password);
 
         const storedUserPassword = process.env[username];
+        console.log('STORED USER PASSWORD: ',storedUserPassword)
         const effect = !storedUserPassword || storedUserPassword != password ? 'Deny' : 'Allow';
 
         const policy = generatePolicy(encodedCreds, event.methodArn, effect);

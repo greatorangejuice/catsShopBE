@@ -96,12 +96,6 @@
               }
             }
           },
-          "HelloLogGroup": {
-            "Type": "AWS::Logs::LogGroup",
-            "Properties": {
-              "LogGroupName": "/aws/lambda/product-service-v3-dev-hello"
-            }
-          },
           "GetProductsLogGroup": {
             "Type": "AWS::Logs::LogGroup",
             "Properties": {
@@ -197,41 +191,6 @@
               }
             }
           },
-          "HelloLambdaFunction": {
-            "Type": "AWS::Lambda::Function",
-            "Properties": {
-              "Code": {
-                "S3Bucket": {
-                  "Ref": "ServerlessDeploymentBucket"
-                },
-                "S3Key": "serverless/product-service-v3/dev/1630662875474-2021-09-03T09:54:35.474Z/product-service-v3.zip"
-              },
-              "Handler": "src/functions/hello/handler.main",
-              "Runtime": "nodejs12.x",
-              "FunctionName": "product-service-v3-dev-hello",
-              "MemorySize": 1024,
-              "Timeout": 6,
-              "Environment": {
-                "Variables": {
-                  "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
-                  "PG_HOST": "postgres-db-0.cccgaep08fok.eu-west-1.rds.amazonaws.com",
-                  "PG_PORT": "5432",
-                  "PG_DATABASE": "catsDB",
-                  "PG_USERNAME": "postgres",
-                  "PG_PASSWORD": "jimbowimbo9W"
-                }
-              },
-              "Role": {
-                "Fn::GetAtt": [
-                  "IamRoleLambdaExecution",
-                  "Arn"
-                ]
-              }
-            },
-            "DependsOn": [
-              "HelloLogGroup"
-            ]
-          },
           "GetProductsLambdaFunction": {
             "Type": "AWS::Lambda::Function",
             "Properties": {
@@ -239,7 +198,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/product-service-v3/dev/1630662875474-2021-09-03T09:54:35.474Z/product-service-v3.zip"
+                "S3Key": "serverless/product-service-v3/dev/1631604909453-2021-09-14T07:35:09.453Z/product-service-v3.zip"
               },
               "Handler": "src/functions/getProducts/handler.main",
               "Runtime": "nodejs12.x",
@@ -274,7 +233,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/product-service-v3/dev/1630662875474-2021-09-03T09:54:35.474Z/product-service-v3.zip"
+                "S3Key": "serverless/product-service-v3/dev/1631604909453-2021-09-14T07:35:09.453Z/product-service-v3.zip"
               },
               "Handler": "src/functions/getProductById/handler.main",
               "Runtime": "nodejs12.x",
@@ -309,7 +268,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/product-service-v3/dev/1630662875474-2021-09-03T09:54:35.474Z/product-service-v3.zip"
+                "S3Key": "serverless/product-service-v3/dev/1631604909453-2021-09-14T07:35:09.453Z/product-service-v3.zip"
               },
               "Handler": "src/functions/createProduct/handler.main",
               "Runtime": "nodejs12.x",
@@ -337,44 +296,34 @@
               "CreateProductLogGroup"
             ]
           },
-          "HelloLambdaVersion0EyZoHMg1qzhKGsvi4A92yNgGz0ODVlEncRu3b5k": {
-            "Type": "AWS::Lambda::Version",
-            "DeletionPolicy": "Retain",
-            "Properties": {
-              "FunctionName": {
-                "Ref": "HelloLambdaFunction"
-              },
-              "CodeSha256": "y3x2f/CmLoK0TCW6eE8DMcVDdGVYt/8++YpMwy4Y5TQ="
-            }
-          },
-          "GetProductsLambdaVersion2BP9Zee6aqO1izgpCnCFtuTHUv2vOYr22NehpfwCKTY": {
+          "GetProductsLambdaVersionEUFgj0Zf9HmkVyNU3efQqNPzHaHHBdAvK98CKhsdsNM": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "GetProductsLambdaFunction"
               },
-              "CodeSha256": "y3x2f/CmLoK0TCW6eE8DMcVDdGVYt/8++YpMwy4Y5TQ="
+              "CodeSha256": "Ylb+47cVA1uJX6uZ7DpDxm7GEvNdTIIUC0mdgM0IcPw="
             }
           },
-          "GetProductByIdLambdaVersionFRV23XjxRxxncziim2SQj8hVh7nzGS4xLbyCdWBXYo": {
+          "GetProductByIdLambdaVersionaeMwheF7mw9GZDPSC17Z1MueNzRR9eezrUWdxahrmw": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "GetProductByIdLambdaFunction"
               },
-              "CodeSha256": "y3x2f/CmLoK0TCW6eE8DMcVDdGVYt/8++YpMwy4Y5TQ="
+              "CodeSha256": "Ylb+47cVA1uJX6uZ7DpDxm7GEvNdTIIUC0mdgM0IcPw="
             }
           },
-          "CreateProductLambdaVersion2AGhmfH9coZ0OGdVhua6eMl9RZPmVUKUY5s7ZRE8": {
+          "CreateProductLambdaVersionS72OjH2opo7U2Owf2Sge4x1ZXxXakvlztAtwyrbI4rg": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "CreateProductLambdaFunction"
               },
-              "CodeSha256": "y3x2f/CmLoK0TCW6eE8DMcVDdGVYt/8++YpMwy4Y5TQ="
+              "CodeSha256": "Ylb+47cVA1uJX6uZ7DpDxm7GEvNdTIIUC0mdgM0IcPw="
             }
           },
           "ApiGatewayRestApi": {
@@ -388,21 +337,6 @@
               },
               "Policy": "",
               "MinimumCompressionSize": 1024
-            }
-          },
-          "ApiGatewayResourceHello": {
-            "Type": "AWS::ApiGateway::Resource",
-            "Properties": {
-              "ParentId": {
-                "Fn::GetAtt": [
-                  "ApiGatewayRestApi",
-                  "RootResourceId"
-                ]
-              },
-              "PathPart": "hello",
-              "RestApiId": {
-                "Ref": "ApiGatewayRestApi"
-              }
             }
           },
           "ApiGatewayResourceProducts": {
@@ -446,60 +380,6 @@
                 "Ref": "ApiGatewayRestApi"
               }
             }
-          },
-          "ApiGatewayMethodHelloPost": {
-            "Type": "AWS::ApiGateway::Method",
-            "Properties": {
-              "HttpMethod": "POST",
-              "RequestParameters": {},
-              "ResourceId": {
-                "Ref": "ApiGatewayResourceHello"
-              },
-              "RestApiId": {
-                "Ref": "ApiGatewayRestApi"
-              },
-              "ApiKeyRequired": false,
-              "AuthorizationType": "NONE",
-              "Integration": {
-                "IntegrationHttpMethod": "POST",
-                "Type": "AWS_PROXY",
-                "Uri": {
-                  "Fn::Join": [
-                    "",
-                    [
-                      "arn:",
-                      {
-                        "Ref": "AWS::Partition"
-                      },
-                      ":apigateway:",
-                      {
-                        "Ref": "AWS::Region"
-                      },
-                      ":lambda:path/2015-03-31/functions/",
-                      {
-                        "Fn::GetAtt": [
-                          "HelloLambdaFunction",
-                          "Arn"
-                        ]
-                      },
-                      "/invocations"
-                    ]
-                  ]
-                }
-              },
-              "MethodResponses": [],
-              "RequestValidatorId": {
-                "Ref": "ApiGatewayProductservicev3RequestValidator"
-              },
-              "RequestModels": {
-                "application/json": {
-                  "Ref": "ApiGatewayMethodHelloPostApplicationJsonModel"
-                }
-              }
-            },
-            "DependsOn": [
-              "HelloLambdaPermissionApiGateway"
-            ]
           },
           "ApiGatewayMethodProductsGet": {
             "Type": "AWS::ApiGateway::Method",
@@ -658,26 +538,6 @@
               "Name": "product-service-v3-dev | Validate request body and querystring parameters"
             }
           },
-          "ApiGatewayMethodHelloPostApplicationJsonModel": {
-            "Type": "AWS::ApiGateway::Model",
-            "Properties": {
-              "RestApiId": {
-                "Ref": "ApiGatewayRestApi"
-              },
-              "ContentType": "application/json",
-              "Schema": {
-                "type": "object",
-                "properties": {
-                  "name": {
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "name"
-                ]
-              }
-            }
-          },
           "ApiGatewayMethodProductsPostApplicationJsonModel": {
             "Type": "AWS::ApiGateway::Model",
             "Properties": {
@@ -712,7 +572,7 @@
               }
             }
           },
-          "ApiGatewayDeployment1630662868600": {
+          "ApiGatewayDeployment1631604902521": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -721,48 +581,10 @@
               "StageName": "dev"
             },
             "DependsOn": [
-              "ApiGatewayMethodHelloPost",
               "ApiGatewayMethodProductsGet",
               "ApiGatewayMethodProductIdVarGet",
               "ApiGatewayMethodProductsPost"
             ]
-          },
-          "HelloLambdaPermissionApiGateway": {
-            "Type": "AWS::Lambda::Permission",
-            "Properties": {
-              "FunctionName": {
-                "Fn::GetAtt": [
-                  "HelloLambdaFunction",
-                  "Arn"
-                ]
-              },
-              "Action": "lambda:InvokeFunction",
-              "Principal": "apigateway.amazonaws.com",
-              "SourceArn": {
-                "Fn::Join": [
-                  "",
-                  [
-                    "arn:",
-                    {
-                      "Ref": "AWS::Partition"
-                    },
-                    ":execute-api:",
-                    {
-                      "Ref": "AWS::Region"
-                    },
-                    ":",
-                    {
-                      "Ref": "AWS::AccountId"
-                    },
-                    ":",
-                    {
-                      "Ref": "ApiGatewayRestApi"
-                    },
-                    "/*/*"
-                  ]
-                ]
-              }
-            }
           },
           "GetProductsLambdaPermissionApiGateway": {
             "Type": "AWS::Lambda::Permission",
@@ -885,19 +707,10 @@
               "Name": "sls-product-service-v3-dev-ServerlessDeploymentBucketName"
             }
           },
-          "HelloLambdaFunctionQualifiedArn": {
-            "Description": "Current Lambda function version",
-            "Value": {
-              "Ref": "HelloLambdaVersion0EyZoHMg1qzhKGsvi4A92yNgGz0ODVlEncRu3b5k"
-            },
-            "Export": {
-              "Name": "sls-product-service-v3-dev-HelloLambdaFunctionQualifiedArn"
-            }
-          },
           "GetProductsLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "GetProductsLambdaVersion2BP9Zee6aqO1izgpCnCFtuTHUv2vOYr22NehpfwCKTY"
+              "Ref": "GetProductsLambdaVersionEUFgj0Zf9HmkVyNU3efQqNPzHaHHBdAvK98CKhsdsNM"
             },
             "Export": {
               "Name": "sls-product-service-v3-dev-GetProductsLambdaFunctionQualifiedArn"
@@ -906,7 +719,7 @@
           "GetProductByIdLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "GetProductByIdLambdaVersionFRV23XjxRxxncziim2SQj8hVh7nzGS4xLbyCdWBXYo"
+              "Ref": "GetProductByIdLambdaVersionaeMwheF7mw9GZDPSC17Z1MueNzRR9eezrUWdxahrmw"
             },
             "Export": {
               "Name": "sls-product-service-v3-dev-GetProductByIdLambdaFunctionQualifiedArn"
@@ -915,7 +728,7 @@
           "CreateProductLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "CreateProductLambdaVersion2AGhmfH9coZ0OGdVhua6eMl9RZPmVUKUY5s7ZRE8"
+              "Ref": "CreateProductLambdaVersionS72OjH2opo7U2Owf2Sge4x1ZXxXakvlztAtwyrbI4rg"
             },
             "Export": {
               "Name": "sls-product-service-v3-dev-CreateProductLambdaFunctionQualifiedArn"
@@ -1045,34 +858,6 @@
     ],
     "pluginsData": {},
     "functions": {
-      "hello": {
-        "handler": "src/functions/hello/handler.main",
-        "events": [
-          {
-            "http": {
-              "method": "post",
-              "path": "hello",
-              "request": {
-                "schema": {
-                  "application/json": {
-                    "$ref": "$[\"service\"][\"provider\"][\"compiledCloudFormationTemplate\"][\"Resources\"][\"ApiGatewayMethodHelloPostApplicationJsonModel\"][\"Properties\"][\"Schema\"]"
-                  }
-                }
-              },
-              "integration": "AWS_PROXY"
-            }
-          }
-        ],
-        "name": "product-service-v3-dev-hello",
-        "package": {
-          "artifact": ".serverless\\product-service-v3.zip"
-        },
-        "memory": 1024,
-        "timeout": 6,
-        "runtime": "nodejs12.x",
-        "vpc": {},
-        "versionLogicalId": "HelloLambdaVersion0EyZoHMg1qzhKGsvi4A92yNgGz0ODVlEncRu3b5k"
-      },
       "getProducts": {
         "handler": "src/functions/getProducts/handler.main",
         "events": [
@@ -1092,7 +877,7 @@
         "timeout": 6,
         "runtime": "nodejs12.x",
         "vpc": {},
-        "versionLogicalId": "GetProductsLambdaVersion2BP9Zee6aqO1izgpCnCFtuTHUv2vOYr22NehpfwCKTY"
+        "versionLogicalId": "GetProductsLambdaVersionEUFgj0Zf9HmkVyNU3efQqNPzHaHHBdAvK98CKhsdsNM"
       },
       "getProductById": {
         "handler": "src/functions/getProductById/handler.main",
@@ -1113,7 +898,7 @@
         "timeout": 6,
         "runtime": "nodejs12.x",
         "vpc": {},
-        "versionLogicalId": "GetProductByIdLambdaVersionFRV23XjxRxxncziim2SQj8hVh7nzGS4xLbyCdWBXYo"
+        "versionLogicalId": "GetProductByIdLambdaVersionaeMwheF7mw9GZDPSC17Z1MueNzRR9eezrUWdxahrmw"
       },
       "createProduct": {
         "handler": "src/functions/createProduct/handler.main",
@@ -1141,7 +926,7 @@
         "timeout": 6,
         "runtime": "nodejs12.x",
         "vpc": {},
-        "versionLogicalId": "CreateProductLambdaVersion2AGhmfH9coZ0OGdVhua6eMl9RZPmVUKUY5s7ZRE8"
+        "versionLogicalId": "CreateProductLambdaVersionS72OjH2opo7U2Owf2Sge4x1ZXxXakvlztAtwyrbI4rg"
       }
     },
     "configValidationMode": "warn",
@@ -1168,7 +953,7 @@
     "isDashboardMonitoringPreconfigured": false
   },
   "package": {
-    "artifactDirectoryName": "serverless/product-service-v3/dev/1630662875474-2021-09-03T09:54:35.474Z",
+    "artifactDirectoryName": "serverless/product-service-v3/dev/1631604909453-2021-09-14T07:35:09.453Z",
     "artifact": ""
   }
 }

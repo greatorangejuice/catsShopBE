@@ -13,7 +13,8 @@
         "shouldStartNameWithService": true
       },
       "environment": {
-        "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1"
+        "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+        "greatorangejuice": "TEST_PASSWORD"
       },
       "lambdaHashingVersion": "20201221",
       "stage": "dev",
@@ -181,7 +182,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/authorization-service/dev/1631201316085-2021-09-09T15:28:36.085Z/authorization-service.zip"
+                "S3Key": "serverless/authorization-service/dev/1631522669855-2021-09-13T08:44:29.855Z/authorization-service.zip"
               },
               "Handler": "src/functions/basicAuthorizer/handler.main",
               "Runtime": "nodejs14.x",
@@ -190,7 +191,8 @@
               "Timeout": 6,
               "Environment": {
                 "Variables": {
-                  "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1"
+                  "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+                  "greatorangejuice": "TEST_PASSWORD"
                 }
               },
               "Role": {
@@ -204,14 +206,14 @@
               "BasicAuthorizerLogGroup"
             ]
           },
-          "BasicAuthorizerLambdaVersionAj5aXr7ZYIFspRGZvTfqMqFbGcE0ySCSEW9HX7t8Bo": {
+          "BasicAuthorizerLambdaVersionVoisZNWmHcBWEf5T0GpdQZZnfpv6zE74b07Nahylqw": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "BasicAuthorizerLambdaFunction"
               },
-              "CodeSha256": "OmImvU61oAgLuUXboqdeDODpVCLNPdKogc82jmNKR1A="
+              "CodeSha256": "ceeXQOZbA62xpevrYs1AeukkwiCeJMix8lJ5N2BO1+A="
             }
           }
         },
@@ -227,7 +229,7 @@
           "BasicAuthorizerLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "BasicAuthorizerLambdaVersionAj5aXr7ZYIFspRGZvTfqMqFbGcE0ySCSEW9HX7t8Bo"
+              "Ref": "BasicAuthorizerLambdaVersionVoisZNWmHcBWEf5T0GpdQZZnfpv6zE74b07Nahylqw"
             },
             "Export": {
               "Name": "sls-authorization-service-dev-BasicAuthorizerLambdaFunctionQualifiedArn"
@@ -338,7 +340,8 @@
       }
     },
     "plugins": [
-      "serverless-webpack"
+      "serverless-webpack",
+      "serverless-dotenv-plugin"
     ],
     "pluginsData": {},
     "functions": {
@@ -353,7 +356,7 @@
         "timeout": 6,
         "runtime": "nodejs14.x",
         "vpc": {},
-        "versionLogicalId": "BasicAuthorizerLambdaVersionAj5aXr7ZYIFspRGZvTfqMqFbGcE0ySCSEW9HX7t8Bo"
+        "versionLogicalId": "BasicAuthorizerLambdaVersionVoisZNWmHcBWEf5T0GpdQZZnfpv6zE74b07Nahylqw"
       }
     },
     "resources": {
@@ -400,7 +403,7 @@
     "isDashboardMonitoringPreconfigured": false
   },
   "package": {
-    "artifactDirectoryName": "serverless/authorization-service/dev/1631201316085-2021-09-09T15:28:36.085Z",
+    "artifactDirectoryName": "serverless/authorization-service/dev/1631522669855-2021-09-13T08:44:29.855Z",
     "artifact": ""
   }
 }
