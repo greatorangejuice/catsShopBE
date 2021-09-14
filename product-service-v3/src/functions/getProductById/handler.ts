@@ -6,7 +6,7 @@ import {middyfy} from '@libs/lambda';
 import {Client} from 'pg';
 import {dbOptions} from "../../constants/db-options";
 
-const getProductById = async (e) => {
+export const getProductById = async (e) => {
     const client = new Client(dbOptions);
     await client.connect();
     console.log(`Get toy by id: `, e)

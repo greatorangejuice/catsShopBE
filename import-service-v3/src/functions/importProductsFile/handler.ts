@@ -5,7 +5,7 @@ import {formatJSONResponse} from "@libs/apiGateway";
 const AWS = require('aws-sdk')
 const BUCKET = 'rs-uploaded'
 
-const importProductsFile = async (event) => {
+export const importProductsFile = async (event) => {
     const s3 = new AWS.S3({region: 'eu-west-1'});
 
     if (!event.queryStringParameters) {
@@ -22,8 +22,8 @@ const importProductsFile = async (event) => {
         ContentType: 'text/csv',
     };
     try {
-        const newUrl = s3.getSignedUrl('putObject', params)
-        return formatJSONResponse({newUrl})
+        const newUrl = await s3.getSignedUrlPromise('putObject', params)
+        return formatJSONResponse(newUrl)
     } catch (e) {
         console.error(e)
         return formatJSONResponse({message: e.message}, 400)

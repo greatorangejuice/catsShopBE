@@ -1,4 +1,8 @@
 # Project exclude paths
+node_modules
 /product-service/node_modules/
+/import-service-v3/node_modules/
+/authorization-service/node_modules
 .idea
 .env
+.serverless
