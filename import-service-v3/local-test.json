@@ -1,5 +1,8 @@
 {
   "queryStringParameters": {
     "name": "test-filename"
-  }
+  },
+  "Records": [
+    "    \"body\": {\n      \"title\": \"Title\"\n    }"
+  ]
 }

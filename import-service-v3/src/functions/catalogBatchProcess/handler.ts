@@ -7,12 +7,10 @@ const AWS = require('aws-sdk')
 
 
 
-const catalogBatchProcess = async (event) => {
+export const catalogBatchProcess = async (event) => {
     const sns = new AWS.SNS({region: 'eu-west-1'});
-
     const products = event.Records.map(({body}) => body);
     const parsedProducts = JSON.parse(products);
-
     const {title, price, description, imglink, count} = parsedProducts;
     console.log('Parsed data: ', title, price, imglink, description, count);
 
