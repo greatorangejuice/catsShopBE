@@ -24,9 +24,6 @@ const serverlessConfiguration: AWS = {
             SQS_URL: {
                 Ref: 'SQSQueue'
             },
-            // SNS_ARN: {
-            //     Ref: 'SNSTopic'
-            // },
         },
         lambdaHashingVersion: '20201221',
         iamRoleStatements: [
@@ -47,13 +44,6 @@ const serverlessConfiguration: AWS = {
                     "Fn::GetAtt": ['SQSQueue', 'Arn']
                 }
             },
-            // {
-            //     Effect: 'Allow',
-            //     Action: 'sns:*',
-            //     Resource: {
-            //         'Ref': 'SNSTopic'
-            //     }
-            // }
         ]
     },
     resources: {
@@ -92,21 +82,11 @@ const serverlessConfiguration: AWS = {
             },
         },
         Outputs: {
-            // SNSTopicARN: {
-            //     Description: 'SNSTopic ARN',
-            //     Value: {
-            //         // "Fn::GetAtt": ["SNSTopic", "Arn"]
-            //         Ref: 'SNSTopic'
-            //     },
-            //     Export: {
-            //         Name: 'SNSTopicARN'
-            //     }
-            // },
             SQSQueueARN: {
                 Description: 'SQSQueue ARN',
                 Value: {
-                    // "Fn::GetAtt": ["SQSQueue", "Arn"]
-                    Ref: 'SQSQueue'
+                    "Fn::GetAtt": ["SQSQueue", "Arn"]
+                    // Ref: 'SQSQueue'
                 },
                 Export: {
                     Name: 'SQSQueueARN'

@@ -5,6 +5,10 @@ import {dbOptions} from "../../constants/db-options";
 
 const AWS = require('aws-sdk')
 
+export enum FilterType {
+    success = 'success',
+    lost = 'lost'
+}
 
 
 export const catalogBatchProcess = async (event) => {
@@ -13,10 +17,22 @@ export const catalogBatchProcess = async (event) => {
     const parsedProducts = JSON.parse(products);
     const {title, price, description, imglink, count} = parsedProducts;
     console.log('Parsed data: ', title, price, imglink, description, count);
-
     const client = new Client(dbOptions);
     await client.connect();
-
+    let message;
+    const mapEmailMessage = (subject: string, message: string, filterValue: FilterType) => {
+        return {
+            Subject: `${subject}`,
+            Message: `${message}`,
+            TopicArn: process.env.SNS_TOPIC_ARN,
+            MessageAttributes: {
+                status: {
+                    DataType: "String",
+                    StringValue: filterValue,
+                },
+            },
+        }
+    }
     try {
         const products = await client.query(
             `insert into products(title, price, description, imglink) values ('${title}', ${price}, '${description}', '${imglink}') returning id`
@@ -27,34 +43,16 @@ export const catalogBatchProcess = async (event) => {
             `insert into stocks (product_id, count) VALUES ('${productId}', ${count})`
         )
         console.log(`New toys added.`)
-        sns.publish({
-            Subject: 'New products was added in database',
-            Message: JSON.stringify(parsedProducts),
-            TopicArn: process.env.SNS_TOPIC_ARN,
-            MessageAttributes: {
-                status: {
-                    DataType: "String",
-                    StringValue: "success",
-                },
-            },
-        }, () => {
+        message = mapEmailMessage('New products was added in database', JSON.stringify(parsedProducts), FilterType.success)
+        sns.publish(message, () => {
             console.log('Send email for: ', JSON.stringify(parsedProducts));
         })
 
     } catch (e) {
         console.error(e.message)
-        sns.publish({
-            Subject: 'New products was added in database',
-            Message: 'Hello, you should check error on catalogBatchProcess',
-            TopicArn: process.env.SNS_TOPIC_ARN,
-            MessageAttributes: {
-                status: {
-                    DataType: "String",
-                    StringValue: "lost",
-                },
-            },
-        }, () => {
-            console.log('Send email for: ', JSON.stringify(parsedProducts));
+        message = mapEmailMessage('Failed to send new products', 'Hello, you should check error on catalogBatchProcess', FilterType.lost)
+        sns.publish(message, () => {
+            console.log('Send email for ERROR');
         })
     } finally {
         client.end()

@@ -48,7 +48,7 @@ const serverlessConfiguration: AWS = {
             ['SNSSubscriptionSuccess']: {
                 Type: 'AWS::SNS::Subscription',
                 Properties: {
-                    Endpoint: 'bypavelsnigirev@gmail.com',
+                    Endpoint: 'garagebrothersindahouse@gmail.com',
                     Protocol: 'email',
                     TopicArn: {
                         Ref: 'SNSTopic'
