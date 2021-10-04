@@ -6,3 +6,6 @@ node_modules
 .idea
 .env
 .serverless
+/product-service-v3/.serverless
+/import-service-v3/.serverless
+/authorization-service/.serverless
