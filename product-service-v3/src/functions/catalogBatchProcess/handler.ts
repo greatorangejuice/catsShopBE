@@ -30,13 +30,32 @@ export const catalogBatchProcess = async (event) => {
         sns.publish({
             Subject: 'New products was added in database',
             Message: JSON.stringify(parsedProducts),
-            TopicArn: process.env.SNS_ARN
+            TopicArn: process.env.SNS_TOPIC_ARN,
+            MessageAttributes: {
+                status: {
+                    DataType: "String",
+                    StringValue: "success",
+                },
+            },
         }, () => {
             console.log('Send email for: ', JSON.stringify(parsedProducts));
         })
 
     } catch (e) {
         console.error(e.message)
+        sns.publish({
+            Subject: 'New products was added in database',
+            Message: 'Hello, you should check error on catalogBatchProcess',
+            TopicArn: process.env.SNS_TOPIC_ARN,
+            MessageAttributes: {
+                status: {
+                    DataType: "String",
+                    StringValue: "lost",
+                },
+            },
+        }, () => {
+            console.log('Send email for: ', JSON.stringify(parsedProducts));
+        })
     } finally {
         client.end()
     }

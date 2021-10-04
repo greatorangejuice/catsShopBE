@@ -1,6 +1,6 @@
 import type {AWS} from '@serverless/typescript';
 
-import {createProduct, getProductById, getProducts} from './src/functions';
+import {createProduct, getProductById, getProducts, catalogBatchProcess} from './src/functions';
 
 const serverlessConfiguration: AWS = {
     service: 'product-service-v3',
@@ -22,15 +22,58 @@ const serverlessConfiguration: AWS = {
         },
         environment: {
             AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
-            PG_HOST: `${process.env.PG_HOST}`,
-            PG_PORT: `${process.env.PG_PORT}`,
-            PG_DATABASE: `${process.env.PG_DATABASE}`,
-            PG_USERNAME: `${process.env.PG_USEERNAME}`,
-            PG_PASSWORD: `${process.env.PG_PASSWORD}`,
+            SNS_TOPIC_ARN: {
+                Ref: 'SNSTopic'
+            }
         },
+        iamRoleStatements: [
+            {
+                Effect: 'Allow',
+                Action: 'sns:*',
+                Resource: {
+                    'Ref': 'SNSTopic'
+                }
+            }
+        ],
         lambdaHashingVersion: '20201221',
     },
-    functions: {getProducts, getProductById, createProduct}
+    resources: {
+        Resources: {
+            ['SNSTopic']: {
+                Type: 'AWS::SNS::Topic',
+                Properties: {
+                    ['TopicName']: 'createProductTopic',
+                }
+            },
+            ['SNSSubscriptionSuccess']: {
+                Type: 'AWS::SNS::Subscription',
+                Properties: {
+                    Endpoint: 'bypavelsnigirev@gmail.com',
+                    Protocol: 'email',
+                    TopicArn: {
+                        Ref: 'SNSTopic'
+                    },
+                    FilterPolicy: {
+                        status: ["success"]
+                    }
+                }
+            },
+            SNSSubscriptionLost: {
+                Type: 'AWS::SNS::Subscription',
+                Properties: {
+                    Endpoint: 'psnigirev@elinext.com',
+                    Protocol: 'email',
+                    TopicArn: {
+                        Ref: 'SNSTopic'
+                    },
+                    FilterPolicy: {
+                        status: ["lost"]
+                    }
+                }
+            },
+        }
+    },
+    functions: {getProducts, getProductById, createProduct, catalogBatchProcess}
 }
 
 module.exports = serverlessConfiguration;

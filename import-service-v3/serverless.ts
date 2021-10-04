@@ -1,6 +1,6 @@
 import type {AWS} from '@serverless/typescript';
 
-import {catalogBatchProcess, importFileParser, importProductsFile} from "@functions/index";
+import {importFileParser, importProductsFile} from "@functions/index";
 
 const serverlessConfiguration: AWS = {
     service: 'import-service-v3',
@@ -24,9 +24,9 @@ const serverlessConfiguration: AWS = {
             SQS_URL: {
                 Ref: 'SQSQueue'
             },
-            SNS_ARN: {
-                Ref: 'SNSTopic'
-            },
+            // SNS_ARN: {
+            //     Ref: 'SNSTopic'
+            // },
         },
         lambdaHashingVersion: '20201221',
         iamRoleStatements: [
@@ -47,13 +47,13 @@ const serverlessConfiguration: AWS = {
                     "Fn::GetAtt": ['SQSQueue', 'Arn']
                 }
             },
-            {
-                Effect: 'Allow',
-                Action: 'sns:*',
-                Resource: {
-                    'Ref': 'SNSTopic'
-                }
-            }
+            // {
+            //     Effect: 'Allow',
+            //     Action: 'sns:*',
+            //     Resource: {
+            //         'Ref': 'SNSTopic'
+            //     }
+            // }
         ]
     },
     resources: {
@@ -62,22 +62,6 @@ const serverlessConfiguration: AWS = {
                 Type: 'AWS::SQS::Queue',
                 Properties: {
                     ['QueueName']: 'import-service-sqs-parse',
-                }
-            },
-            ['SNSTopic']: {
-                Type: 'AWS::SNS::Topic',
-                Properties: {
-                    ['TopicName']: 'createProductTopic',
-                }
-            },
-            ['SNSSubscription']: {
-                Type: 'AWS::SNS::Subscription',
-                Properties: {
-                    Endpoint: 'bypavelsnigirev@gmail.com',
-                    Protocol: 'email',
-                    TopicArn: {
-                        Ref: 'SNSTopic'
-                    }
                 }
             },
             GatewayResponseAccessDenied: {
@@ -107,10 +91,32 @@ const serverlessConfiguration: AWS = {
                 },
             },
         },
+        Outputs: {
+            // SNSTopicARN: {
+            //     Description: 'SNSTopic ARN',
+            //     Value: {
+            //         // "Fn::GetAtt": ["SNSTopic", "Arn"]
+            //         Ref: 'SNSTopic'
+            //     },
+            //     Export: {
+            //         Name: 'SNSTopicARN'
+            //     }
+            // },
+            SQSQueueARN: {
+                Description: 'SQSQueue ARN',
+                Value: {
+                    // "Fn::GetAtt": ["SQSQueue", "Arn"]
+                    Ref: 'SQSQueue'
+                },
+                Export: {
+                    Name: 'SQSQueueARN'
+                }
+            }
+        },
     },
     // import the function via paths
     // @ts-ignore
-    functions: {importProductsFile, importFileParser, catalogBatchProcess},
+    functions: {importProductsFile, importFileParser},
 };
 
 module.exports = serverlessConfiguration;
