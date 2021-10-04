@@ -1,4 +1,4 @@
-import {catalogBatchProcess} from "@functions/catalogBatchProcess/handler";
+import {catalogBatchProcess} from "./handler";
 import AWSMock from 'aws-sdk-mock';
 import AWS from 'aws-sdk';
 import {Client} from 'pg';

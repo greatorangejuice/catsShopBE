@@ -8,7 +8,6 @@ const BUCKET = 'rs-uploaded'
 const importFileParser = async () => {
     const s3 = new AWS.S3({region: 'eu-west-1'});
     const sqs = new AWS.SQS();
-    const results = [];
 
     const listObjectsParams = {
         Bucket: BUCKET,
@@ -37,16 +36,6 @@ const importFileParser = async () => {
                     console.log('Error: ', err)
                     console.log('Data: ', data)
                 })
-                // results.push(data);
-                // results.forEach(product => {
-                //     sqs.sendMessage({
-                //         QueueUrl: process.env.SQS_URL,
-                //         MessageBody: JSON.stringify(product)
-                //     }, (err, data) => {
-                //         console.log('Error: ', err)
-                //         console.log('Data: ', data)
-                //     })
-                // })
             })
             .on('end', async () => {
                 console.log('END STREAM');
@@ -63,10 +52,9 @@ const importFileParser = async () => {
         }).promise()
         await s3.deleteObject(({Bucket: BUCKET, Key: getObjectParams.Key})).promise()
     } catch (e) {
-        console.error(e.message)
+        console.log('Ошибка', e)
     }
 
 }
-
 
 export const main = middyfy(importFileParser);

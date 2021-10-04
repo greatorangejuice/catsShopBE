@@ -10,15 +10,16 @@ export enum FilterType {
     lost = 'lost'
 }
 
-
 export const catalogBatchProcess = async (event) => {
     const sns = new AWS.SNS({region: 'eu-west-1'});
     const products = event.Records.map(({body}) => body);
     const parsedProducts = JSON.parse(products);
     const {title, price, description, imglink, count} = parsedProducts;
     console.log('Parsed data: ', title, price, imglink, description, count);
+
     const client = new Client(dbOptions);
     await client.connect();
+
     let message;
     const mapEmailMessage = (subject: string, message: string, filterValue: FilterType) => {
         return {
@@ -34,6 +35,8 @@ export const catalogBatchProcess = async (event) => {
         }
     }
     try {
+
+
         const products = await client.query(
             `insert into products(title, price, description, imglink) values ('${title}', ${price}, '${description}', '${imglink}') returning id`
         )
