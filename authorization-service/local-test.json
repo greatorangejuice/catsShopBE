@@ -1,0 +1,13 @@
+{
+  "pathParameters": {
+    "id": "1699b507-0bf5-4514-825c-a5921d0526eb"
+  },
+  "body": {
+    "title": "Good toy for all cats",
+    "price": 650,
+    "description": "Toy for all cats",
+    "count": 10
+  },
+  "authorizationToken": "Basic Z3JlYXRvcmFuZ2VqdWljZTpURVNUX1BBU1NXT1JE",
+  "type": "TOKEN"
+}
