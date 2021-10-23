@@ -3,6 +3,7 @@ node_modules
 /product-service/node_modules/
 /import-service-v3/node_modules/
 /authorization-service/node_modules
+/rs-cart-api/node_modules
 .idea
 .env
 .serverless
