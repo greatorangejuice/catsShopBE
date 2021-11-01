@@ -22,7 +22,7 @@ RUN rm -rf node_modules/couchbase/src/
 # Application
 FROM node:14-alpine as application
 
-COPY --from=base /app/pachage*.json ./
+COPY --from=base /app/package*.json ./
 COPY --from=base /app/node_modules ./node_modules
 #RUN npm install --only=production
 #RUN npm install pm2 -g
